@@ -5,11 +5,6 @@ function setup() {
   createCanvas(400, 300);
   r = int(random(400));
   }
-
-
-
-
-
 function draw() {
   //translate(width/2,height/2);
   background(220);
