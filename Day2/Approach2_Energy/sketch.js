@@ -1,3 +1,4 @@
+var time=0
 var total_time=0;
 var avg_time=0;
 var cycle_time=0;
@@ -17,23 +18,23 @@ function draw() {
   //translate(width/2,height/2);
   background(220);
   textSize(12);
-  timer()
+
+  time=timer()
   energy=energy-0.1
-  count=count+1
   agent(x,y,0);
   move()
   fill(255,255,255);
   ellipse(r,y,10,10);
   eat()
-  text('average time '+ avg_time/1000 +' s',50,50);
-  text('current cycle time '+ cycle_time/1000 + ' s', 50,250);
+  text('average time '+ avg_time +' ms',50,50);
+  text('current cycle time '+ cycle_time + ' ms', 50,250);
 	text('ENERGY '+energy,50,30);
 
 }
 
 function eat(){
   if (x==r){
-    energy=energy+10
+    energy=energy+20
 		r=int(random(400));
   	cycle()
   }
@@ -42,6 +43,8 @@ function eat(){
 function die(){
 
 }
+
+
 function agent(x, y,theta){
   var r = 20;
   if (direction==1){
@@ -87,7 +90,7 @@ function timer(){
 }
 
 function cycle(){
-  var time=timer()
+  count=count+1
   cycle_time=time-time2
   total_time=total_time+cycle_time
   avg_time=total_time/count
