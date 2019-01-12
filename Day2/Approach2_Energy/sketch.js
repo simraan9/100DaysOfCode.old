@@ -25,8 +25,8 @@ function draw() {
   fill(255,255,255);
   ellipse(r,y,10,10);
   eat()
-  text('average time '+ avg_time/1000 +' s',50,50);
-  text('current cycle time '+ cycle_time/1000 + ' s', 50,250);
+  text('average time '+ avg_time/1000 +'  s',50,50);
+  text('current cycle time '+ cycle_time/1000 + '  s', 50,250);
 	text('ENERGY '+energy,50,30);
 
 }
