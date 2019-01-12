@@ -2,15 +2,15 @@ var total_time=0;
 var avg_time=0;
 var cycle_time=0;
 var count=0;
-var x=200;
 var y=150;
 var direction=0;
 var time2=0;
+var energy=0;
+var x,r;
+var death_count=-1;
 
-var energy=100;
 function setup() {
   createCanvas(400, 300);
-  r = int(random(400));
   }
 
 function draw() {
@@ -28,7 +28,7 @@ function draw() {
   text('average time '+ Math.floor(avg_time * 100) / 100 +' ms',50,50);
   text('last cycle time '+ Math.floor(cycle_time * 100) / 100  + ' ms', 50,250);
 	text('ENERGY '+Math.floor(energy),50,30);
-
+  text('Death Count '+death_count,50,70);
 }
 
 function eat(){
@@ -37,10 +37,19 @@ function eat(){
 		r=int(random(400));
   	cycle()
   }
+  death()
 }
 
-function die(){
-
+function reset(){
+  r =int(random(400));
+	x=int(random(400));
+}
+function death(){
+	if (energy<0){
+  	reset();
+    energy=100;
+    death_count=death_count+1;
+  }
 }
 function agent(x, y,theta){
   var r = 20;
