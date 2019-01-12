@@ -10,7 +10,7 @@ var x,r;
 var death_count=-1;
 
 function setup() {
-  createCanvas(400, 300);
+  createCanvas(400, 300); //change 400 everywhere
   }
 
 function draw() {
