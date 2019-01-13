@@ -28,7 +28,7 @@ function draw() {
   text('average time '+ Math.floor(avg_time * 100) / 100 +' ms',50,50);
   text('last cycle time '+ Math.floor(cycle_time * 100) / 100  + ' ms', 50,250);
 	text('ENERGY '+Math.floor(energy),50,30);
-  text('Death Count '+death_count,50,70);
+  text(' Death Count '+death_count,50,70);
   text(' Total Time '+total_time,50,90);
 }
 
@@ -52,7 +52,7 @@ function death(){
     death_count=death_count+1;
   }
 }
-function draw_agent(x, y,theta){
+function draw_agent(x, y,theta){ //renamed
   var beta=radius*cos(2*PI/9);
   var gama=radius*sin(2*PI/9);
 	if (direction==0){
