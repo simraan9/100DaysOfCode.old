@@ -35,14 +35,14 @@ function draw() {
 function eat(){
   if (x==r){
     energy=energy+10
-		r=int(random(400));
+		r=int(random(20,380));
   	cycle()
   }
   death()
 }
 
 function reset(){
-  r =int(random(400));
+  r =int(random(20,380));
 	x=int(random(400));
 }
 function death(){
