@@ -29,6 +29,7 @@ function draw() {
   text('last cycle time '+ Math.floor(cycle_time * 100) / 100  + ' ms', 50,250);
 	text('ENERGY '+Math.floor(energy),50,30);
   text('Death Count '+death_count,50,70);
+  text(' Total Time '+total_time,50,90);
 }
 
 function eat(){
