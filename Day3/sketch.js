@@ -73,9 +73,9 @@ function flip(){
 }
 
 function move(){
-	  if (x==0) {
+	  if (x==0+radius) {
     flip();
-  } else if (x>400) {
+  } else if (x>400-radius) {
     flip();
   }
 
