@@ -52,19 +52,15 @@ function death(){
   }
 }
 function agent(x, y,theta){
-  var r = 20;
-  if (direction==1){
-		theta=theta+PI;
-  }
-  var p1x= x+(r*(cos(theta)));
-  var p1y=y+(r*(sin(theta)));
-  var p2x=x+(r*(cos(theta+2*(PI/3)+(PI/8))));
-  var p2y=y+(r*(sin(theta+2*(PI/3)+(PI/8))));
-  var p3x=x+(r*(cos(theta+(-4)*(PI/6)-(PI/8))));
-  var p3y=y+(r*(sin(theta+(-4)*(PI/6)-(PI/8))));
-  fill(0,0,255);
- 	triangle(p1x,p1y,p2x,p2y,p3x,p3y);
-  }
+  var beta=radius*cos(2*PI/9);
+  var gama=radius*sin(2*PI/9);
+	if (direction==0){
+	   triangle(x+radius,y,x-beta,y-gama,x-beta,y+gama);
+	}
+	else if (direction==1) {
+	   triangle(x-radius,y,x-beta+2*beta,y-gama,x-beta+2*beta,y+gama);
+	}
+}
 
 function flip(){
 	if (direction==0){
