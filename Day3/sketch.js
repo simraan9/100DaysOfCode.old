@@ -20,7 +20,7 @@ function draw() {
   background(220);
   textSize(12);
   energy=energy-0.1
-  agent(x,y,0);
+  draw_agent(x,y,0);
   move()
   fill(255,255,255);
   ellipse(r,y,10,10);
@@ -52,7 +52,7 @@ function death(){
     death_count=death_count+1;
   }
 }
-function agent(x, y,theta){
+function draw_agent(x, y,theta){
   var beta=radius*cos(2*PI/9);
   var gama=radius*sin(2*PI/9);
 	if (direction==0){
