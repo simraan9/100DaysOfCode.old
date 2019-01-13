@@ -8,6 +8,8 @@ var time2=0;
 var energy=0;
 var x,r;
 var death_count=-1;
+var s = 0;
+
 
 function setup() {
   createCanvas(400, 300); //change 400 everywhere
@@ -17,9 +19,7 @@ function draw() {
   //translate(width/2,height/2);
   background(220);
   textSize(12);
-  timer()
   energy=energy-0.1
-  count=count+1
   agent(x,y,0);
   move()
   fill(255,255,255);
@@ -86,7 +86,6 @@ function move(){
 }
 
 function timer(){
-  var s = 0;
   s = millis();
 	return s;
 }
@@ -97,4 +96,5 @@ function cycle(){
   total_time=total_time+cycle_time
   avg_time=total_time/count
   time2=time
+  count=count+1
 }
