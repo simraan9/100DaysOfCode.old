@@ -38,9 +38,9 @@ function eat_food(){
   if (x==r){
     energy=energy+10
 		r=int(random(20,380));
-  	eat_cycle()
+  	count_cycletime()
   }
-death()
+kill_agent()
 }
 
 function reset(){
@@ -49,7 +49,7 @@ function reset(){
 
 }
 
-function death(){
+function kill_agent(){
 	if (energy<0){
   	reset();
     energy=100;
@@ -70,7 +70,7 @@ function draw_agent(x, y,theta){
 	}
   }
 
-function flip_the_agent(){
+function flip_agent(){
 	if (direction==0){
   	direction=1
   }
@@ -81,9 +81,9 @@ function flip_the_agent(){
 
 function move(){
 	  if (x==0+radius) {
-    flip_the_agent();
+    flip_agent();
   } else if (x>400-radius) {
-    flip_the_agent();
+    flip_agent();
   }
 
   if (x<=400 && direction==0) {
@@ -98,7 +98,7 @@ function start_timer(){
 	return s;
 }
 
-function eat_cycle(){
+function count_cycletime(){
   var time=start_timer()
   cycle_time=time-time2
   total_time=total_time+cycle_time
