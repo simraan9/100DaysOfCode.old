@@ -12,6 +12,7 @@ var death_count=-1;
 var frameCounts=0;
 var simulation_speed=15;
 var flag=0;
+var max_speed=10
 
 function setup() {
   createCanvas(400, 300);
@@ -21,7 +22,7 @@ function setup() {
 function draw() {
   background(220);
   textSize(12);
-  energy=energy-1
+  energy=energy-5
   draw_agent(x,y,0);
   if(check_flag()>=0){
   	move()
@@ -76,7 +77,7 @@ function check_jumps(m, n){
 function eat_food(){
   //if (p>r-1 && p<r+1){
     energy=energy+100
-		r=int(random(20,380));
+		r=int(random(50,350));
   	count_cycletime()
  // }
 flag=0;
@@ -117,9 +118,15 @@ function move(){
   }
 
   if (x<=400 && direction==0) {
-    x=x+(energy/100);
+    if(energy/100<=max_speed)
+    	x=x+(energy/100);
+    else
+      x=x+max_speed
   } else if (x>0 && direction==1) {
-  	x=x-(energy/100);
+    if(energy/100<=max_speed)
+    	x=x-(energy/100);
+    else
+      x=x-max_speed
   }
 }
 
