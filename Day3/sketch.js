@@ -9,9 +9,8 @@ var energy=0;
 var x,r;
 var radius=30;
 var death_count=-1;
-var frameCounts=0;
+var frameCount=0;
 var simulation_speed=15;
-var flag=0;
 
 function setup() {
   createCanvas(400, 300);
@@ -23,104 +22,58 @@ function draw() {
   textSize(12);
   energy=energy-1
   draw_agent(x,y,0);
-  if(check_flag()>=0){
-  	move()
-  }
+  move()
   fill(255,255,255);
   ellipse(r,y,10,10);
   text('average time '+ Math.floor(avg_time * 100) / 100 +' ms',50,50);
   text('last cycle time '+ Math.floor(cycle_time * 100) / 100  + ' ms', 50,250);
-  text('Total Time '+total_time,50,90);
 	text('ENERGY '+ Math.floor(energy),50,30);
   text('Death Count '+death_count,50,70);
+  text('Total Time '+total_time,50,90);
   keyPressed();
-  text('frame count '+frameCounts, 50,105);
+  text('frame count '+frameCount, 50,105);
   text(simulation_speed, 50,120);
-  //text('x: '+x+ '    x+energy: '+(x+(energy/100)) + '    r: '+ r, 50, 200);
-  //text(check_flag(), 50, 50)
-  //text(check_jumps(), 50, 100)
-  //text(check_jumps(x,(x+energy/100)), 50, 250)
 }
 
-function check_flag(){
-  kill_agent()
-  if ((check_jumps(x,(x+(energy/100)))!=0) && direction ==1){
-    flag=1
-  	eat_food()
-  }
-
-  else if ((check_jumps((x-(energy/100)),x)!=0)&& direction ==0){
-    flag=1
-  	eat_food()
-  }
-  else
-    move()
-  return flag;
-}
-
-function check_jumps(m, n){
-  if(direction==1){
-    for(var i=m; i<n+1; i++)
-      if(i>r-1 && i<r+1)
-        flag=i
-  }
-
-  if(direction==0){
-    for(var i=n; i>m-1; i--)
-      if(i>r-1 && i<r+1)
-        flag=i
-  }
-  return m,n, flag;
-}
-
-function eat_food(){
-  //if (p>r-1 && p<r+1){
+function eat_food(p){
+  if (p==r){
     energy=energy+100
 		r=int(random(20,380));
   	count_cycletime()
- // }
-flag=0;
+  }
+kill_agent()
+}
+
+function reset(){
+	r = int(random(20,380));
+	x = int(random(400));
 }
 
 function kill_agent(){
 	if (energy<0){
   	reset();
+    energy=1000;
+    death_count=death_count+1;
   }
-  flag=0;
 }
 
-function reset(){
-	r = int(random(20,380))
-	x = parseInt(random(400))
-  energy=1000;
-  death_count=death_count+1;
+function check_jumps(m, n){
+  for(var i=m; i<n+1; i++){
+    if(i==r){
+      eat_food(i);
+  }
 }
-
 
 function draw_agent(x, y,theta){
   var beta=radius*cos(2*PI/9);
-  var gamma=radius*sin(2*PI/9);
+  var gama=radius*sin(2*PI/9);
 
 	if (direction==0){
-	triangle(x+radius,y,x-beta,y-gamma,x-beta,y+gamma);
+	triangle(x+radius,y,x-beta,y-gama,x-beta,y+gama);
 	}
 	else if (direction==1) {
-	triangle(x-radius,y,x-beta+2*beta,y-gamma,x-beta+2*beta,y+gamma);
+	triangle(x-radius,y,x-beta+2*beta,y-gama,x-beta+2*beta,y+gama);
 	}
-}
-
-function move(){
-	  if (x<=0+radius) {
-    flip_agent();
-  } else if (x>=400-radius) {
-    flip_agent();
-  }
-
-  if (x<=400 && direction==0) {
-    x=x+(energy/100);
-  } else if (x>0 && direction==1) {
-  	x=x-(energy/100);
-  }
 }
 
 function flip_agent(){
@@ -132,8 +85,24 @@ function flip_agent(){
   }
 }
 
+function move(){
+	  if (x==0+radius) {
+    flip_agent();
+  } else if (x>400-radius) {
+    flip_agent();
+  }
+
+  if (x<=400 && direction==0) {
+    check_jumps(x,x+(energy%100))
+    x=x+(energy%100);
+  } else if (x>0 && direction==1) {
+  	x=x-(energy%100);
+    check_jumps(x-(energy%100),x)
+  }
+}
+
 function count_cycletime(){
-  var time= frameCounts;
+  var time= frameCount;
   cycle_time=time-time2;
   total_time=total_time+cycle_time;
   avg_time=total_time/count;
@@ -148,4 +117,6 @@ function keyPressed(){
     else if(keyCode == DOWN_ARROW){
         simulation_speed -= 20;
     }
+    // Update frame rate to the updated simulation speed
+    frameRate(simulation_speed);
 }
