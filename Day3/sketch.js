@@ -24,7 +24,7 @@ function draw() {
   textSize(12);
   energy=energy-5
   draw_agent(x,y,0);
-  if(check_flag()>=0){
+  if(optical_sensor()>=0){
   	move()
   }
   fill(255,255,255);
@@ -36,30 +36,35 @@ function draw() {
   text('Death Count '+death_count,50,70);
   keyPressed();
   //text('frame count '+frameCounts, 50,105);
-  text('simulation speed: ' + simulation_speed, 50,110);
+  text('simulation speed ' + simulation_speed, 50,110);
   //text('x: '+x+ '    x+energy: '+(x+(energy/100)) + '    r: '+ r, 50, 200);
   //text(check_flag(), 50, 50)
   //text(check_jumps(), 50, 100)
   //text(check_jumps(x,(x+energy/100)), 50, 250)
 }
 
-function check_flag(){
-  kill_agent()
-  if ((check_jumps(x,(x+(energy/100)))!=0) && direction ==1){
-    flag=1
+function optical_sensor(){
+	kill_agent()
+	if ((check_jumps(x,x+50)!=0) && direction ==1){ //checks for 50px awareness
+   if ((check_jumps(x,(x+(energy/100)))!=0) && direction ==1){ //checks for speed awareness
     if(energy<=900)
-  		eat_food()
-  }
-
-  else if ((check_jumps((x-(energy/100)),x)!=0)&& direction ==0){
+  		eat_food(flag)
     flag=1
-  	if(energy<=900)
-  		eat_food()
+ 	 }
   }
+  else if ((check_jumps(x-50,x)!=0)&& direction ==0){
+  	if ((check_jumps(x-(energy/100),x)!=0)&& direction ==0){
+  	 if(energy<=900)
+  		eat_food(flag)
+    flag=1
+  	}
+
+	}
   else
     move()
-  return flag;
-}
+	return flag;
+
+  }
 
 function check_jumps(m, n){
   if(direction==1){
@@ -73,14 +78,16 @@ function check_jumps(m, n){
       if(i>=r-1 && i<=r+1)
         flag=i
   }
-  return m,n, flag;
+  return flag;
 }
 
-function eat_food(){
+function eat_food(p){
+  if(p>=r-1 && p<=r+1){
     count_cycletime()
     energy=energy+50
 		r=int(random(50,350));
 		flag=0;
+  }
 }
 
 function kill_agent(){
