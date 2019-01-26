@@ -152,7 +152,7 @@ class Agent {
     	var timer=this.timer.count_cycletime()
     	this.energy=this.energy+50
 			this.change_f.reset()
-			this.flag=0; 
+			this.flag=0;  
   	}
   //else
     //move()
