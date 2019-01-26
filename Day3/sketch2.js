@@ -7,7 +7,7 @@
 class Food{
   constructor(){
     //this.x position of food
-    this.r=0;
+    this.r=50;
     this.y=150;
   }
 
@@ -22,8 +22,9 @@ class Food{
 
   die(){
 		if (this.energy<0){
-  		reset();
+  		this.reset();
   	}
+	}
 }
 
 class Agent {
@@ -44,10 +45,20 @@ class Agent {
 
     //get food location
     this.look_for = 0;
+    this.timer = 0;
+    this.change_f = 0;
   }
 
   setFood(food){
-      this.look_for = food
+    this.look_for = food
+  }
+
+  setTimer(timer){
+    this.timer = timer
+  }
+
+  reSpawn(doof){
+  	this.change_f=doof;
   }
 
   display(){
@@ -64,10 +75,10 @@ class Agent {
 
   move(){
 	  if (this.x<=0+this.radius) {
-    	flip();
+    	this.flip();
   	}
     else if (this.x>=400-this.radius) {
-    	flip();
+    	this.flip();
   	}
 
   	if (this.x<=400 && this.direction==0) {
@@ -96,24 +107,24 @@ class Agent {
 
   //change name to see(). This function checks if the food is within 50px and returns the place value in this.flag.Change name to place_value
   see(){
-		if ((check_jumps(this.x,this.x+50,)!=0) && this.direction ==1){//checks for 50px awareness in +ve direction
-   		if ((check_jumps(this.x,(this.x+(this.energy/100)))!=0) && this.direction ==1) //checks for speed awareness +ve direction
+		if ((this.check_jumps(this.x,this.x+50)!=0) && this.direction ==1){//checks for 50px awareness in +ve direction
+   		if ((this.check_jumps(this.x,(this.x+(this.energy/100)))!=0) && this.direction ==1) //checks for speed awareness +ve direction
     		if(this.energy<=900){
-  				eat_food()
+  				this.eat_food()
     		}
    		else
-      	move()
+      	this.move()
   	}
-  	else if ((check_jumps(this.x-50,this.x)!=0)&& this.direction ==0){ //checks for 50px awareness in -ve direction
-  		if ((check_jumps(this.x-(this.energy/100),this.x)!=0)&& this.direction ==0) //checks for speed awareness -ve direction
+  	else if ((this.check_jumps(this.x-50,this.x)!=0)&& this.direction ==0){ //checks for 50px awareness in -ve direction
+  		if ((this.check_jumps(this.x-(this.energy/100),this.x)!=0)&& this.direction ==0) //checks for speed awareness -ve direction
   	 		if(this.energy<=900){
-  					eat_food()
+  					this.eat_food()
      		}
    		else
-     		move()
+     		this.move()
 		}
   	else
-   		move()
+   		this.move()
 		return this.flag;
 	}
 
@@ -127,20 +138,20 @@ class Agent {
   	}
 
   	else if (this.direction==0){
-    	for(var i=n; i>m-1; i--)
-      	if(i>=r-1 && i<=r+1)
-        	this.flag=i
+    	for(var j=n; j>m-1; j--)
+      	if(j>=r-1 && j<=r+1)
+        	this.flag=j
   	}
   	return this.flag;
 	}
 
   //If the returned place_value is at the same position as the food, it consumes it and respawns food
   eat_food(){
-    r = this.look_for.r;
+    var r = this.look_for.r;
   	if(this.x>=r-(this.energy/100) && this.x<=r+(this.energy/100)){
-    	count_cycletime()
+    	var timer=this.timer.count_cycletime()
     	this.energy=this.energy+50
-			r=int(random(50,350));
+			this.change_f.reset()
 			this.flag=0;
   	}
   //else
@@ -151,7 +162,7 @@ class Agent {
   //dies the agent of the this.energy<900
   die(){
 		if (this.energy<0){
-  		reset();
+  		this.reset();
   	}
   this.flag=0;
 	}
@@ -172,10 +183,12 @@ var death_count=-1;
 function setup() {
   createCanvas(400, 300);
   frameRate(this.simulation_speed);
-  dummy= new Agent;
-  meal= new Food;
+  dummy= new Agent();
+  meal= new Food();
   dummy.setFood(meal);
-  t= new time;
+  t= new Time();
+  dummy.setTimer(t)
+  dummy.reSpawn(meal)
 }
 
 function draw() {
@@ -185,6 +198,7 @@ function draw() {
   if(dummy.see()>=0){
   	dummy.move()
   }
+
   fill(255,255,255);
   meal.display()
   dummy.die()
@@ -192,16 +206,16 @@ function draw() {
   //text('average time '+ Math.floor(this.avg_time * 100) / 100 +' ms',50,50);
   //text('last cycle time '+ Math.floor(this.cycle_time * 100) / 100  + ' ms', 50,250);
   //text('Total Time '+this.total_time,50,90);
-	text('this.energy '+ Math.floor(this.energy),50,30);
-  text('Death this.count_cycle '+death_count,50,70);
-  keyPressed();
+	//text('this.energy '+ Math.floor(this.energy),50,30);
+  //text('Death this.count_cycle '+death_count,50,70);
+  t.keyPressed();
   //text('frame this.count_cycle '+this.frame_counts, 50,105);
-  text('simulation speed ' + this.simulation_speed, 50,110);
-  text('this.x: '+this.x+ '    this.x+this.energy: '+(this.x+(this.energy/100)) + '    this.r: '+ this.r, 50, 200);
+  //text('simulation speed ' + this.simulation_speed, 50,110);
+  //text('this.x: '+this.x+ '    this.x+this.energy: '+(this.x+(this.energy/100)) + '    this.r: '+ this.r, 50, 200);
   //text(check_flag(), 50, 50)
-  text(check_jumps(), 50, 100)
-  text(check_jumps(this.x,(this.x+this.energy/100)), 50, 250)
-  text(eat_food(this.flag), 50, 260)
+  //text(dummy.check_jumps(), 50, 100)
+  //text(dummy.check_jumps(this.x,(this.x+this.energy/100)), 50, 250)
+  //text(dummy.eat_food(this.flag), 50, 260)
 }
 
 class Time{
@@ -211,12 +225,13 @@ class Time{
     this.total_time=0;
     this.avg_time=0;
     this.time2=0;
-    var frameCounts=0;
+    this.frameCounts=0;
     this.simulation_speed=15;
   }
 
-  function count_cycletime(){
-    var time= frameCounts;
+
+  count_cycletime(){
+    var time= this.frameCounts;
     this.cycle_time= time-this.time2;
     this.total_time=this.total_time+this.cycle_time;
     this.avg_time=this.total_time/this.count_cycle;
@@ -224,12 +239,12 @@ class Time{
     this.count_cycle=this.count_cycle+1;
   }
 
-function keyPressed(){
+	keyPressed(){
     if (keyCode == UP_ARROW){
         this.simulation_speed += 20;
     }
     else if(keyCode == DOWN_ARROW){
         this.simulation_speed -= 20;
     }
-}
+	}
 }
