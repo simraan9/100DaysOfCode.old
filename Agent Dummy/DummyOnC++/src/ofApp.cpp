@@ -16,7 +16,7 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     if(dummy.see()>=0){
-        dummy.move();
+        dummy.move();  
     }
     t.keyPressed();
 }
