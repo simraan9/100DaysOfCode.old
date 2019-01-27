@@ -3,6 +3,16 @@
     Authors: Apoorva & Simran
     © 2018 Apoorva&Simran. All Rights Resered.
 */
+class Obstacle{
+	constructor(){
+    this.pos=int(random(0,400));
+    this.y=150;
+
+  }
+  display(){
+  rect(this.pos,this.y-5,10,10);
+  }
+}
 
 class Food{
   constructor(){
@@ -128,6 +138,45 @@ class Agent {
 		return this.flag;
 	}
 
+  //olfactory, This function checks if the food is within 30px ahead and 15 px behind his nose and flips direction to get there quicker.
+  olfactory(){
+		if ((this.check_jumps(this.x,this.x+30)!=0) && this.direction ==1){//checks for 30px awareness in +ve direction
+   		if ((this.check_jumps(this.x,(this.x+(this.energy/100)))!=0) && this.direction ==1) //checks for speed awareness +ve direction
+    		if(this.energy<=900){
+  				this.eat_food()
+    		}
+   		else
+      	this.move()
+  	}
+  	else if ((this.check_jumps(this.x-30,this.x)!=0)&& this.direction ==0){ //checks for 30px awareness in -ve direction
+  		if ((this.check_jumps(this.x-(this.energy/100),this.x)!=0)&& this.direction ==0) //checks for speed awareness -ve direction
+  	 		if(this.energy<=900){
+  					this.eat_food()
+     		}
+
+    if ((this.check_jumps(this.x-15+this.radius,this.x+this.radius)!=0) && this.direction ==1){//checks for 30px awareness in +ve direction
+   		if ((this.check_jumps(this.x,(this.x+(this.energy/100)))!=0) && this.direction ==1) //checks for speed awareness +ve direction
+    		if(this.energy<=900){
+  				this.eat_food()
+    		}
+   		else
+      	this.move()
+  	}
+  	else if ((this.check_jumps(this.x+this.radius,this.x-15+this.radius)!=0)&& this.direction ==0){ //checks for 50px awareness in -ve direction
+  		if ((this.check_jumps(this.x-(this.energy/100),this.x)!=0)&& this.direction ==0) //checks for speed awareness -ve direction
+  	 		if(this.energy<=900){
+  					this.eat_food()
+     		}
+   		else
+     		this.move()
+		}
+  	else
+   		this.move()
+		return this.flag;
+	}
+  }
+
+
   //checks if the food is between two points
   check_jumps(m, n){
     var r = this.look_for.r;
@@ -185,6 +234,7 @@ function setup() {
   frameRate(this.simulation_speed);
   dummy= new Agent();
   meal= new Food();
+  barrier= new Obstacle();
   dummy.setFood(meal);
   t= new Time();
   dummy.setTimer(t)
@@ -194,13 +244,16 @@ function setup() {
 function draw() {
   background(220);
   textSize(12);
+  fill(20,0,255);
   dummy.display();
-  if(dummy.see()>=0){
+  if(dummy.see()>=0 && dummy.olfactory()>=0){
   	dummy.move()
   }
 
   fill(255,255,255);
-  meal.display()
+  meal.display();
+  fill(55,150,55);
+  barrier.display();
   dummy.die()
   meal.die()
   //text('average time '+ Math.floor(this.avg_time * 100) / 100 +' ms',50,50);
