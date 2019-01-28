@@ -3,7 +3,31 @@
     Authors: Apoorva & Simran
     © 2018 Apoorva&Simran. All Rights Resered.
 */
+class Obstacle{
+	constructor(){
+    this.pos=int(random(0,400));
+    this.y=150;
 
+  }
+
+  display(){
+  rect(this.pos,this.y-5,10,10);
+  }
+
+  respawn(){
+  this.pos=int(random(0,400));
+  }
+
+  wait(){
+  var wait=int(random(0,5));
+    //for (var i=0; i<=wait;i++){
+    //console.log("i")
+    //}
+  //this.respawn();
+}
+
+
+}
 class Food{
   constructor(){
     //this.x position of food
@@ -82,8 +106,9 @@ class Agent {
   	}
 
   	if (this.x<=400 && this.direction==0) {
-    	if(this.energy/100<=this.max_speed)
+    	if(this.energy/100<=this.max_speed){
     		this.x=this.x+(this.energy/100);
+      }
     	else
       	this.x=this.x+this.max_speed
   	}
@@ -166,6 +191,7 @@ class Agent {
 	}
   }
 
+
   //checks if the food is between two points
   check_jumps(m, n){
     var r = this.look_for.r;
@@ -188,7 +214,7 @@ class Agent {
     var r = this.look_for.r;
   	if(this.x>=r-(this.energy/100) && this.x<=r+(this.energy/100)){
     	var timer=this.timer.count_cycletime()
-    	this.energy=this.energy+50
+    	this.energy=this.energy+10
 			this.change_f.reset()
 			this.flag=0;
   	}
@@ -223,6 +249,7 @@ function setup() {
   frameRate(this.simulation_speed);
   dummy= new Agent();
   meal= new Food();
+  barrier= new Obstacle();
   dummy.setFood(meal);
   t= new Time();
   dummy.setTimer(t)
@@ -232,20 +259,39 @@ function setup() {
 function draw() {
   background(220);
   textSize(12);
+
+  //color response to energy
+  if (dummy.energy>800){
+    fill(20,0,200);
+  }
+  if (dummy.energy<800 && dummy.energy>500){
+    fill(5,200,30);}
+//  if (dummy.energy<500 && dummy.energy>300){
+  //  fill(15,200,20);}
+  //if (dummy.energy<300 && dummy.energy>100){
+    //fill(255,250,0);}
+
+
+else
+  fill(25,15,255);
   dummy.display();
   if(dummy.see()>=0 && dummy.olfactory()>=0){
+  //  int b=random(255);
   	dummy.move()
   }
 
   fill(255,255,255);
-  meal.display()
+  meal.display();
+  fill(55,150,55);
+  barrier.display();
+ // barrier.wait();
   dummy.die()
   meal.die()
   //text('average time '+ Math.floor(this.avg_time * 100) / 100 +' ms',50,50);
   //text('last cycle time '+ Math.floor(this.cycle_time * 100) / 100  + ' ms', 50,250);
   //text('Total Time '+this.total_time,50,90);
-	//text('this.energy '+ Math.floor(this.energy),50,30);
-  //text('Death this.count_cycle '+death_count,50,70);
+	text('Energy '+ Math.floor(dummy.energy),50,30);
+  text('Death count '+death_count,50,70);
   t.keyPressed();
   //text('frame this.count_cycle '+this.frame_counts, 50,105);
   //text('simulation speed ' + this.simulation_speed, 50,110);
