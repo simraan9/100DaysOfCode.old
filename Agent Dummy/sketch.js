@@ -3,9 +3,10 @@
     Authors: Apoorva & Simran
     © 2018 Apoorva&Simran. All Rights Resered.
 */
+/*
 class Obstacle{
 	constructor(){
-    this.pos=int(random(0,400));
+    this.pos=int(random(50,350));
     this.y=150;
 
   }
@@ -19,15 +20,13 @@ class Obstacle{
   }
 
   wait(){
-  var wait=int(random(0,5));
-    //for (var i=0; i<=wait;i++){
-    //console.log("i")
-    //}
-  //this.respawn();
+  var wait=int(random(1,5));
+  setInterval(this.display(), wait*100);
+  clearInterval();
 }
-
-
 }
+*/
+
 class Food{
   constructor(){
     //this.x position of food
@@ -74,11 +73,11 @@ class Agent {
   }
 
   setFood(food){
-    this.look_for = food
+    this.look_for = food;
   }
 
   setTimer(timer){
-    this.timer = timer
+    this.timer = timer;
   }
 
   reSpawn(doof){
@@ -213,7 +212,7 @@ class Agent {
   eat_food(){
     var r = this.look_for.r;
   	if(this.x>=r-(this.energy/100) && this.x<=r+(this.energy/100)){
-    	var timer=this.timer.count_cycletime()
+    	var timer=(this.timer).count_cycletime()
     	this.energy=this.energy+10
 			this.change_f.reset()
 			this.flag=0;
@@ -249,11 +248,12 @@ function setup() {
   frameRate(this.simulation_speed);
   dummy= new Agent();
   meal= new Food();
-  barrier= new Obstacle();
+//  barrier= new Obstacle();
+	t= new Time();
   dummy.setFood(meal);
-  t= new Time();
   dummy.setTimer(t)
   dummy.reSpawn(meal)
+	var frameCounts=0;
 }
 
 function draw() {
@@ -262,18 +262,20 @@ function draw() {
 
   //color response to energy
   if (dummy.energy>800){
-    fill(20,0,200);
+    fill(0,0,255);
   }
   if (dummy.energy<800 && dummy.energy>500){
-    fill(5,200,30);}
+    fill(50,50,255);}
 //  if (dummy.energy<500 && dummy.energy>300){
   //  fill(15,200,20);}
   //if (dummy.energy<300 && dummy.energy>100){
     //fill(255,250,0);}
 
 
-else
-  fill(25,15,255);
+else if (dummy.energy<500 && dummy.energy>0){
+  fill(0,0,0);
+}
+
   dummy.display();
   if(dummy.see()>=0 && dummy.olfactory()>=0){
   //  int b=random(255);
@@ -283,18 +285,17 @@ else
   fill(255,255,255);
   meal.display();
   fill(55,150,55);
-  barrier.display();
- // barrier.wait();
+//  barrier.wait();
   dummy.die()
   meal.die()
   //text('average time '+ Math.floor(this.avg_time * 100) / 100 +' ms',50,50);
   //text('last cycle time '+ Math.floor(this.cycle_time * 100) / 100  + ' ms', 50,250);
   //text('Total Time '+this.total_time,50,90);
 	text('Energy '+ Math.floor(dummy.energy),50,30);
-  text('Death count '+death_count,50,70);
+  text('Death count '+ death_count,50,70);
   t.keyPressed();
-  //text('frame this.count_cycle '+this.frame_counts, 50,105);
-  //text('simulation speed ' + this.simulation_speed, 50,110);
+  text('count cycle time '+ t.frameCounts, 50,90);
+  text('simulation speed ' + t.simulation_speed, 50,110);
   //text('this.x: '+this.x+ '    this.x+this.energy: '+(this.x+(this.energy/100)) + '    this.r: '+ this.r, 50, 200);
   //text(check_flag(), 50, 50)
   //text(dummy.check_jumps(), 50, 100)
@@ -309,13 +310,13 @@ class Time{
     this.total_time=0;
     this.avg_time=0;
     this.time2=0;
-    this.frameCounts=0;
+    //this.frameCounts=0;
     this.simulation_speed=15;
   }
 
 
   count_cycletime(){
-    var time= this.frameCounts;
+    var time= frameCounts;
     this.cycle_time= time-this.time2;
     this.total_time=this.total_time+this.cycle_time;
     this.avg_time=this.total_time/this.count_cycle;
