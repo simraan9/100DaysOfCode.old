@@ -1,0 +1,11 @@
+﻿  main.cpp
+  ofApp.cpp
+     Creating library bin\AgentDummy_myWiseSketch_debug.lib and object bin\AgentDummy_myWiseSketch_debug.exp
+  AgentDummy_myWiseSketch.vcxproj -> D:\Simran\Openframeworks\apps\myApps\AgentDummy_myWiseSketch\bin\AgentDummy_myWiseSketch_debug.exe
+  
+  	                   2	D:\Simran\Openframeworks\libs\fmodex\lib\vs\Win32\
+  	  *EXTRA File 		 6018560	D:\Simran\Openframeworks\apps\myApps\AgentDummy_myWiseSketch\bin\FreeImage.dll
+  
+  	                   1	D:\Simran\Openframeworks\libs\FreeImage\lib\vs\Win32\
+  	  *EXTRA File 		 1266176	D:\Simran\Openframeworks\apps\myApps\AgentDummy_myWiseSketch\bin\fmodex.dll
+  	  *EXTRA File 		 1312768	D:\Simran\Openframeworks\apps\myApps\AgentDummy_myWiseSketch\bin\fmodexL.dll
