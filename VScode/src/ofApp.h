@@ -7,6 +7,7 @@ class ofApp : public ofBaseApp{
 
 	public:
 		Agent A;
+		Food meal;
 		void setup();
 		void update();
 		void draw();
