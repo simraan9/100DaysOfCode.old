@@ -64,11 +64,11 @@ public:
 		if (x == 0) {
 			flip();
 		}
-		else if (x>1023){
+		else if (x>400){
 			flip();
 		}
 
-		if (x <= 1024 && direction == 0) {
+		if (x <= 400&& direction == 0) {
 			x = x - 1;
 		}
 		else if (x > 0 && direction == 1) {
