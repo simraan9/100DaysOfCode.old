@@ -51,6 +51,7 @@ public:
 
 	}
 	int flip() {
+
 		if (direction == 1) {
 			direction = 0;
 		}
@@ -61,19 +62,21 @@ public:
 	}
 
 	void move() {
-		if (x == 0) {
-			flip();
-		}
-		else if (x>400){
-			flip();
-		}
 
-		if (x <= 400&& direction == 0) {
-			x = x - 1;
-		}
-		else if (x > 0 && direction == 1) {
+		if (x >= 0 && direction == 1) {
 			x = x + 1;
 		}
+		else if (x <= 400 && direction == 0) {
+			x = x - 1;
+		}
+
+		if (x == 0) {
+			this->flip();
+		}
+		else if (x == 400){
+			this->flip();
+		}
+		
 	}
 };
 
