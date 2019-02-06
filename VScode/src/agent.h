@@ -6,6 +6,8 @@ private:
 	int y;
 	int radius;
 	float theta;
+	int beta;
+	int gamma;
 
 	int x1;
 	int y1;
@@ -46,10 +48,18 @@ public:
 		int y2 = y + (radius*(sin(theta + 2 * (PI / 3) + (PI / 8))));
 		int x3 = x + (radius*(cos(theta + (-4)*(PI / 6) - (PI / 8))));
 		int y3 = y + (radius*(sin(theta + (-4)*(PI / 6) - (PI / 8))));
+		beta = radius*cos(2 * PI / 9);
+		gamma = radius*sin(2 * PI / 9);
 
-		ofDrawTriangle(x1, y1, x2, y2, x3, y3);
-
+		if (direction == 1) {
+			ofDrawTriangle(x + radius, y, x - beta, y - gamma, x - beta, y + gamma);
+		}
+		else if (direction == 0) {
+			ofDrawTriangle(x - radius, y, x - beta + 2 * beta, y - gamma, x - beta + 2 * beta, y + gamma);
+		}
 	}
+
+	
 	int flip() {
 
 		if (direction == 1) {
@@ -78,6 +88,12 @@ public:
 		}
 		
 	}
+
+	void eat() {
+		
+	
+	
+	}
 };
 
 class Food {
@@ -88,12 +104,24 @@ private:
 public:
 
 	Food(){
-		this->r= 50;
+		this->r= ofRandom(5,395);
 		this->y= 100;
 	}
 	
 	void displayFood(){
-		ofDrawCircle(this->r, this->y, 10, 10);
+		ofDrawCircle(r, y, 10, 10);
 	}
+	/*
+	void reset() {
+		r = ofRandom(5, 395);
+	}
+
+	void respawnFood() {
+		if (r == Agent.get_x()); {
+			
+			this->reset();
+		}
+	}
+	*/
 
 };
