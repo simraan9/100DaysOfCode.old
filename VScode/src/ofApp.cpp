@@ -6,21 +6,23 @@ using namespace std;
 //--------------------------------------------------------------
 
 void ofApp::setup(){
-	A = Agent(50, 50,0);
+	A = Agent(50, 200,0);
 	meal = Food();
+	//m = Monitor(A);
+	ofSetBackgroundColor(0);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 	A.display();
 	A.move();
-	meal.displayFood();
-//fDrawRectangle(0, 0,662, 468);
+	meal.display();
+	A.eat(meal);
+	ofDrawBitmapString("Eat count: " + to_string(A.eatCount), 10, 100);
 	
 }
 

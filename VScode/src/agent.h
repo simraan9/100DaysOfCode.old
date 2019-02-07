@@ -1,5 +1,35 @@
 #pragma once
 
+
+class Food {
+private:
+	int r;
+	int y;
+
+public:
+
+	void display() {
+		ofDrawCircle(r, y, 10, 10);
+	}
+
+	void reset() {
+		r = ofRandom(5, 395);
+	}
+
+	int get_r() {
+		return r;
+	}
+
+	Food() {
+		this->r = ofRandom(5, 395);
+		this->y = 200;
+	}
+
+
+
+};
+
+
 class Agent {
 private:
 	int x;
@@ -19,21 +49,25 @@ private:
 
 
 public:
+	int eatCount;
 
 	Agent() {
 		x = 100;
-		y = 100;
+		y = 200;
 		theta = 0;
 		radius = 20;
 		direction = 1;
+		eatCount = 0;
 	}
 
 	Agent(int x, int y, float theta) {
-		this->x = 100;
-		this->y = 100;
+		this->x = x;
+		this->y = y;
 		this->theta = 0;
 		radius = 20;
 		direction = 1;
+		eatCount = 0;
+
 	}
 	int get_x() {
 		return x;
@@ -89,39 +123,13 @@ public:
 		
 	}
 
-	void eat() {
-		
+	void eat(Food &m) {
 	
-	
-	}
-};
-
-class Food {
-private:
-	int r;
-	int y;
-	
-public:
-
-	Food(){
-		this->r= ofRandom(5,395);
-		this->y= 100;
-	}
-	
-	void displayFood(){
-		ofDrawCircle(r, y, 10, 10);
-	}
-	/*
-	void reset() {
-		r = ofRandom(5, 395);
-	}
-
-	void respawnFood() {
-		if (r == Agent.get_x()); {
-			
-			this->reset();
+		if (x == m.get_r()) {
+			eatCount = eatCount + 1;
+			m.reset();
 		}
+		
 	}
-	*/
-
 };
+
