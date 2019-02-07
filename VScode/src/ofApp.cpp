@@ -22,7 +22,14 @@ void ofApp::draw(){
 	A.move();
 	meal.display();
 	A.eat(meal);
-	ofDrawBitmapString("Eat count: " + to_string(A.eatCount), 10, 100);
+	A.die();
+	A.energy = A.energy -0.25;
+	ofDrawBitmapString("Energy:" , 10, 120);
+	ofDrawBitmapString("Death count: " + to_string(A.deathCount), 200, 140);
+	ofDrawBitmapString("Eat count: " + to_string(A.eatCount), 10, 140);
+
+	
+	ofDrawRectangle(70, 112, int(A.energy), 5);
 	
 }
 

@@ -9,7 +9,7 @@ private:
 public:
 
 	void display() {
-		ofDrawCircle(r, y, 10, 10);
+		ofDrawCircle(r, y, 5, 5);
 	}
 
 	void reset() {
@@ -47,9 +47,10 @@ private:
 	int y3;
 	int direction;
 
-
 public:
 	int eatCount;
+	float energy;
+	int deathCount;
 
 	Agent() {
 		x = 100;
@@ -58,6 +59,8 @@ public:
 		radius = 20;
 		direction = 1;
 		eatCount = 0;
+		energy = 100;
+		deathCount = 0;
 	}
 
 	Agent(int x, int y, float theta) {
@@ -67,14 +70,22 @@ public:
 		radius = 20;
 		direction = 1;
 		eatCount = 0;
-
+		energy = 100;
+		deathCount = 0;
 	}
+
 	int get_x() {
 		return x;
 	}
+
 	int get_y() {
 		return y;
 	}
+
+	int get_energy() {
+		return energy;
+	}
+
 	void display() {
 		int x1 = x + (radius*(cos(theta)));
 		int y1 = y + (radius*(sin(theta)));
@@ -106,7 +117,6 @@ public:
 	}
 
 	void move() {
-
 		if (x >= 0 && direction == 1) {
 			x = x + 1;
 		}
@@ -120,16 +130,28 @@ public:
 		else if (x == 400){
 			this->flip();
 		}
-		
 	}
 
-	void eat(Food &m) {
+	void eat(Food &meal) {
 	
-		if (x == m.get_r()) {
+		if (x == meal.get_r()) {
 			eatCount = eatCount + 1;
-			m.reset();
+			meal.reset();
+			energy = energy + 50;
 		}
 		
+	}
+	void respawn() {
+		x = ofRandom(0, 400);
+
+	}
+
+	void die() {
+		if (energy <= 0) {
+			respawn();
+			energy = 100;
+			deathCount = deathCount + 1;
+	}
 	}
 };
 
