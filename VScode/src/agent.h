@@ -1,5 +1,11 @@
-#pragma once
+/*
+	The Autonomous Agent of Future
+	Authors: Apoorva & Simran
+	© 2019 Apoorva&Simran. All Rights Reserved.
+*/
 
+#pragma once
+using namespace std;
 
 class Food {
 private:
@@ -51,6 +57,7 @@ public:
 	int eatCount;
 	float energy;
 	int deathCount;
+	int maxSpeed;
 
 	Agent() {
 		x = 100;
@@ -59,8 +66,9 @@ public:
 		radius = 20;
 		direction = 1;
 		eatCount = 0;
-		energy = 100;
+		energy = 1000;
 		deathCount = 0;
+		maxSpeed = 10;
 	}
 
 	Agent(int x, int y, float theta) {
@@ -70,8 +78,9 @@ public:
 		radius = 20;
 		direction = 1;
 		eatCount = 0;
-		energy = 100;
+		energy = 1000;
 		deathCount = 0;
+		maxSpeed = 10;
 	}
 
 	int get_x() {
@@ -117,19 +126,49 @@ public:
 	}
 
 	void move() {
-		if (x >= 0 && direction == 1) {
-			x = x + 1;
-		}
-		else if (x <= 400 && direction == 0) {
-			x = x - 1;
+	
+		//if (x >= 0 && direction == 1) {
+			//x = x + 1;
+		//}
+	//	else if (x <= 400 && direction == 0) {
+//			x = x - 1;
+	//	}
+
+		if (energy / 100 <= maxSpeed) {
+			if (x <= 400 && direction == 0) {
+				x = x - (energy / 100);
+			}
+			else if (x >= 0 && direction == 1) {
+				x = x + (energy / 100);
+			}
+			else 
 		}
 
+		/*
+		if (x <= 400 && direction == 0) {
+			if (energy / 100 <= maxSpeed) {
+				x = x - (energy / 100);
+			}
+			else {
+				x = x - maxSpeed;
+			}
+		else (x >= 0 && direction == 1) {
+			if (energy / 100 <= maxSpeed) {
+				x = x + (energy / 100);
+			}
+			else {
+				x = x + maxSpeed;
+			}
+		}
+		*/
 		if (x == 0) {
 			this->flip();
 		}
 		else if (x == 400){
 			this->flip();
 		}
+		
+	
 	}
 
 	void eat(Food &meal) {

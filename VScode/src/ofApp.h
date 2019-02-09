@@ -1,7 +1,14 @@
+/*
+	The Autonomous Agent of Future
+	Authors: Apoorva & Simran
+	© 2019 Apoorva&Simran. All Rights Reserved.
+*/
+
 #pragma once
 
 #include "ofMain.h"
 #include "agent.h"
+#include "ofxGui.h" //Library for timer
 
 class ofApp : public ofBaseApp{
 
@@ -11,6 +18,15 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
+		
+		//timer
+		float startTime;
+		bool timerEnd;
+
+		ofxPanel gui;
+		ofParameter<float> endTime;
+
+
 
 		void keyPressed(int key);
 		void keyReleased(int key);
