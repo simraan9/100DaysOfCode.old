@@ -13,12 +13,8 @@ using namespace std;
 //--------------------------------------------------------------
 
 void ofApp::setup(){
-	gui.setup();
-	gui.add(endTime.set("endtime",1000.0,0.0,6000.0));
-	timerEnd = false;
-	startTime = ofGetElapsedTimeMillis();
-	//timer
-	
+	TimeCount = Timer();
+
 	A = Agent(50, 200,0);
 	meal = Food();
 	//m = Monitor(A);
@@ -31,22 +27,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	gui.draw(); //timer
-	float barWidth = 600;
-	float timer = ofGetElapsedTimeMillis()-startTime;
-
-	if timer >= endTime{
-		timerEnd = true;
-	}
-
-	float timerBar = ofMap(timerEnd, 0.0, endTime, 0.0, 1.0, true);
-	ofSetColor = 255;
-	ofRect(ofGetWidth() / 2 - 300, ofGetHeight() / 2, barWidth*timerBar, 30);
-
-	if (timer >= 300) {
-		ofSetColor(255, 0, 0);
-		ofCircle(300, 600, 100);
-	}
+	TimeCount.display();
 
 	A.display();
 	A.move();
@@ -65,11 +46,6 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-	if (key = " ") {
-		timerEnd = false;
-		startTime = ofGetElapsedMillis();
-	}
-
 }
 
 //--------------------------------------------------------------

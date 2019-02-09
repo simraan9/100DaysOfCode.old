@@ -1,7 +1,7 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (obj\Win32\Debug\) contains files shared from another project (AgentDummy_myWiseSketch.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   main.cpp
   ofApp.cpp
-d:\simran\openframeworks\apps\myapps\100daysofcode\vscode\src\agent.h(145): error C2059: syntax error: '}' (compiling source file src\main.cpp)
-d:\simran\openframeworks\apps\myapps\100daysofcode\vscode\src\ofapp.h(11): fatal error C1083: Cannot open include file: 'ofxGui.h': No such file or directory (compiling source file src\main.cpp)
-d:\simran\openframeworks\apps\myapps\100daysofcode\vscode\src\agent.h(145): error C2059: syntax error: '}' (compiling source file src\ofApp.cpp)
-d:\simran\openframeworks\apps\myapps\100daysofcode\vscode\src\ofapp.h(11): fatal error C1083: Cannot open include file: 'ofxGui.h': No such file or directory (compiling source file src\ofApp.cpp)
+d:\simran\openframeworks\apps\myapps\100daysofcode\vscode\src\agent.h(226): error C2660: 'Agent::countCycleTime': function does not take 0 arguments (compiling source file src\main.cpp)
+  d:\simran\openframeworks\apps\myapps\100daysofcode\vscode\src\agent.h(117): note: see declaration of 'Agent::countCycleTime' (compiling source file src\main.cpp)
+d:\simran\openframeworks\apps\myapps\100daysofcode\vscode\src\agent.h(226): error C2660: 'Agent::countCycleTime': function does not take 0 arguments (compiling source file src\ofApp.cpp)
+  d:\simran\openframeworks\apps\myapps\100daysofcode\vscode\src\agent.h(117): note: see declaration of 'Agent::countCycleTime' (compiling source file src\ofApp.cpp)

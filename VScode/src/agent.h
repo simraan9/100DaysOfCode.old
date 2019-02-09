@@ -7,6 +7,24 @@
 #pragma once
 using namespace std;
 
+class Timer {
+private:
+
+public:
+	int startTime;
+	
+	Timer() {
+		startTime = ofGetElapsedTimeMillis();
+	}
+	
+	void display() {
+		ofDrawBitmapString("Time " + to_string(startTime), 10, 250);
+	}
+	void reset() {
+		startTime = ofGetElapsedTimeMillis();
+	}
+}t;
+
 class Food {
 private:
 	int r;
@@ -53,6 +71,14 @@ private:
 	int y3;
 	int direction;
 
+	int endTime;
+	int cycleTime;
+	int t2;
+	int totalTime;
+	int avgTime;
+	int count;
+
+
 public:
 	int eatCount;
 	float energy;
@@ -69,6 +95,11 @@ public:
 		energy = 1000;
 		deathCount = 0;
 		maxSpeed = 10;
+		totalTime = 0;
+		avgTime = 0;
+		cycleTime = 0;
+		t2 = 0;
+		count = 0;
 	}
 
 	Agent(int x, int y, float theta) {
@@ -83,6 +114,8 @@ public:
 		maxSpeed = 10;
 	}
 
+
+
 	int get_x() {
 		return x;
 	}
@@ -96,6 +129,8 @@ public:
 	}
 
 	void display() {
+
+
 		int x1 = x + (radius*(cos(theta)));
 		int y1 = y + (radius*(sin(theta)));
 		int x2 = x + (radius*(cos(theta + 2 * (PI / 3) + (PI / 8))));
@@ -111,6 +146,13 @@ public:
 		else if (direction == 0) {
 			ofDrawTriangle(x - radius, y, x - beta + 2 * beta, y - gamma, x - beta + 2 * beta, y + gamma);
 		}
+
+
+		ofDrawBitmapString("Total Time" + to_string(totalTime), 10, 300);
+		ofDrawBitmapString("Average Time" + to_string(avgTime), 10, 310);
+		ofDrawBitmapString("Last cycle Time" + to_string(cycleTime), 10, 320);
+
+
 	}
 
 	
@@ -127,40 +169,13 @@ public:
 
 	void move() {
 	
-		//if (x >= 0 && direction == 1) {
-			//x = x + 1;
-		//}
-	//	else if (x <= 400 && direction == 0) {
-//			x = x - 1;
-	//	}
-
-		if (energy / 100 <= maxSpeed) {
-			if (x <= 400 && direction == 0) {
-				x = x - (energy / 100);
-			}
-			else if (x >= 0 && direction == 1) {
-				x = x + (energy / 100);
-			}
-			else 
+		if (x >= 0 && direction == 1) {
+			x = x + 1;
 		}
-
-		/*
-		if (x <= 400 && direction == 0) {
-			if (energy / 100 <= maxSpeed) {
-				x = x - (energy / 100);
-			}
-			else {
-				x = x - maxSpeed;
-			}
-		else (x >= 0 && direction == 1) {
-			if (energy / 100 <= maxSpeed) {
-				x = x + (energy / 100);
-			}
-			else {
-				x = x + maxSpeed;
-			}
+		else if (x <= 400 && direction == 0) {
+			x = x - 1;
 		}
-		*/
+	
 		if (x == 0) {
 			this->flip();
 		}
@@ -171,15 +186,25 @@ public:
 	
 	}
 
+	void countCycleTime(Timer &t) {
+		cycleTime = t.startTime - t2;
+		totalTime = totalTime + cycleTime;
+		avgTime = totalTime / count;
+		t2 = t.startTime;
+		count = count + 1;
+	}
+
 	void eat(Food &meal) {
 	
 		if (x == meal.get_r()) {
+			countCycleTime();
 			eatCount = eatCount + 1;
 			meal.reset();
 			energy = energy + 50;
 		}
 		
 	}
+
 	void respawn() {
 		x = ofRandom(0, 400);
 
