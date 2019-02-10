@@ -7,6 +7,7 @@
 #pragma once
 using namespace std;
 
+/*
 class Timer {
 private:
 
@@ -24,6 +25,7 @@ public:
 		startTime = ofGetElapsedTimeMillis();
 	}
 }t;
+*/
 
 class Food {
 private:
@@ -84,6 +86,8 @@ public:
 	float energy;
 	int deathCount;
 	int maxSpeed;
+	int startTime;
+	int t1;
 
 	Agent() {
 		x = 100;
@@ -99,7 +103,8 @@ public:
 		avgTime = 0;
 		cycleTime = 0;
 		t2 = 0;
-		count = 0;
+		count = 1;
+		startTime = ofGetElapsedTimeMillis();
 	}
 
 	Agent(int x, int y, float theta) {
@@ -112,6 +117,12 @@ public:
 		energy = 1000;
 		deathCount = 0;
 		maxSpeed = 10;
+		totalTime = 0;
+		avgTime = 0;
+		cycleTime = 0;
+		t2 = 0;
+		count = 1;
+		startTime = ofGetElapsedTimeMillis();
 	}
 
 
@@ -148,9 +159,9 @@ public:
 		}
 
 
-		ofDrawBitmapString("Total Time" + to_string(totalTime), 10, 300);
-		ofDrawBitmapString("Average Time" + to_string(avgTime), 10, 310);
-		ofDrawBitmapString("Last cycle Time" + to_string(cycleTime), 10, 320);
+		ofDrawBitmapString("Total Time: " + to_string(totalTime), 10, 300);
+		ofDrawBitmapString("Average Time: " + to_string(avgTime), 10, 320);
+		ofDrawBitmapString("Last cycle Time: " + to_string(cycleTime), 10, 340);
 
 
 	}
@@ -186,11 +197,19 @@ public:
 	
 	}
 
-	void countCycleTime(Timer &t) {
-		cycleTime = t.startTime - t2;
+	void displayTime() {
+		ofDrawBitmapString("Time " + to_string(startTime), 10, 250);
+	}
+	void resetTime() {
+		startTime = ofGetElapsedTimeMillis();
+	}
+
+	void countCycleTime() {
+		t1 = startTime;
+		cycleTime = t1 - t2;
 		totalTime = totalTime + cycleTime;
-		avgTime = totalTime / count;
-		t2 = t.startTime;
+		avgTime = totalTime/count;
+		t2 = t1;
 		count = count + 1;
 	}
 
@@ -200,6 +219,7 @@ public:
 			countCycleTime();
 			eatCount = eatCount + 1;
 			meal.reset();
+			resetTime();
 			energy = energy + 50;
 		}
 		
@@ -213,7 +233,7 @@ public:
 	void die() {
 		if (energy <= 0) {
 			respawn();
-			energy = 100;
+			energy = 1000;
 			deathCount = deathCount + 1;
 	}
 	}

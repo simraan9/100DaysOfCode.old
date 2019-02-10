@@ -15,7 +15,7 @@ class ofApp : public ofBaseApp{
 	public:
 		Agent A;
 		Food meal;
-		Timer TimeCount;
+		//Timer TimeCount;
 		void setup();
 		void update();
 		void draw();

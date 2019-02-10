@@ -13,7 +13,7 @@ using namespace std;
 //--------------------------------------------------------------
 
 void ofApp::setup(){
-	TimeCount = Timer();
+//	TimeCount = Timer();
 
 	A = Agent(50, 200,0);
 	meal = Food();
@@ -27,7 +27,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	TimeCount.display();
+	//TimeCount.display();
 
 	A.display();
 	A.move();
