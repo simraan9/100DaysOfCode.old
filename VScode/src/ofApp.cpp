@@ -30,16 +30,21 @@ void ofApp::draw(){
 	//TimeCount.display();
 
 	A.display();
-	A.move();
+	//A.move();
 	meal.display();
 	A.eat(meal);
+
+	if (A.see(meal) >= 0) {
+		A.move();
+	}
+
 	A.die();
 	A.energy = A.energy - 1;
 	ofDrawBitmapString("Energy:" , 10, 120);
 	ofDrawBitmapString("Death count: " + to_string(A.deathCount), 200, 140);
 	ofDrawBitmapString("Eat count: " + to_string(A.eatCount), 10, 140);
+	ofDrawBitmapString("Estpos: " + to_string(A.estPos), 10, 100);
 
-	
 	ofDrawRectangle(70, 112, int(A.energy/10), 5);
 	
 }

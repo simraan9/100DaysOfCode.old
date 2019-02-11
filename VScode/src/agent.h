@@ -7,25 +7,6 @@
 #pragma once
 using namespace std;
 
-/*
-class Timer {
-private:
-
-public:
-	int startTime;
-	
-	Timer() {
-		startTime = ofGetElapsedTimeMillis();
-	}
-	
-	void display() {
-		ofDrawBitmapString("Time " + to_string(startTime), 10, 250);
-	}
-	void reset() {
-		startTime = ofGetElapsedTimeMillis();
-	}
-}t;
-*/
 
 class Food {
 private:
@@ -88,6 +69,8 @@ public:
 	int maxSpeed;
 	int startTime;
 	int t1;
+	int foodPos;
+	int estPos;
 
 	Agent() {
 		x = 100;
@@ -159,9 +142,9 @@ public:
 		}
 
 
-		ofDrawBitmapString("Total Time: " + to_string(totalTime), 10, 300);
-		ofDrawBitmapString("Average Time: " + to_string(avgTime), 10, 320);
-		ofDrawBitmapString("Last cycle Time: " + to_string(cycleTime), 10, 340);
+		ofDrawBitmapString("Total Time: " + to_string(t1/1000)+"s", 10, 300);
+		ofDrawBitmapString("Average Time: " + to_string(avgTime / 1000) + "s", 10, 320);
+		ofDrawBitmapString("Last cycle Time: " + to_string(cycleTime / 1000) +"s", 10, 340);
 
 
 	}
@@ -180,17 +163,17 @@ public:
 
 	void move() {
 	
-		if (x >= 0 && direction == 1) {
+		if (x >= 0+radius && direction == 1) {
 			x = x + 1;
 		}
-		else if (x <= 400 && direction == 0) {
+		else if (x <= 400-radius && direction == 0) {
 			x = x - 1;
 		}
 	
-		if (x == 0) {
+		if (x == 0+radius) {
 			this->flip();
 		}
-		else if (x == 400){
+		else if (x == 400-radius){
 			this->flip();
 		}
 		
@@ -237,5 +220,60 @@ public:
 			deathCount = deathCount + 1;
 	}
 	}
+
+	int checkJumps(Food &meal, int pos1, int pos2) {
+
+		foodPos = meal.get_r();
+		
+		if (direction == 1) {
+			for (int i = pos1; i < pos2 + 1; i++) {
+				if (i >= foodPos - 1 && i <= foodPos + 1) {
+					estPos = i; //estimated position
+				}
+			}
+		}
+
+		else if (direction == 0) {
+			for (int j = pos2; j > pos1 - 1; j--) {
+				if (j >= foodPos - 1 && j <= foodPos + 1) {
+					estPos = j;
+				}
+			}
+		}
+		return estPos;
+		
+	}
+
+	int see(Food &meal) {
+		
+		if ((checkJumps(meal , x, x + 50) != 0) && direction == 1) { //checks for 50px awareness in +ve direction
+			if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1) { //checks for speed awareness +ve direction
+				if (energy <= 900) {
+					eat(meal);
+				}
+			}
+			else {
+				move();
+			}
+		}
+
+		else if ((checkJumps(meal, x - 50, x) != 0) && direction == 0) { //checks for 50px awareness in -ve direction
+			if ((checkJumps(meal, x - (energy / 100), x) != 0) && direction == 0) //checks for speed awareness -ve direction
+				if (energy <= 900) {
+					eat(meal);
+				}
+
+				else {
+					move();
+				}
+		}
+		else {
+			move();
+		}
+		
+		return estPos;
+	
+	}
+	
 };
 
