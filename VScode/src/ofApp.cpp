@@ -27,14 +27,11 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	//TimeCount.display();
-
 	A.display();
-	//A.move();
 	meal.display();
 	A.eat(meal);
 
-	if (A.see(meal) >= 0) {
+	if ((A.see(meal) >= 0) && (A.smell(meal) >=0)) {
 		A.move();
 	}
 

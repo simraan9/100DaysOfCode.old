@@ -7,7 +7,6 @@
 #pragma once
 using namespace std;
 
-
 class Food {
 private:
 	int r;
@@ -20,7 +19,7 @@ public:
 	}
 
 	void reset() {
-		r = ofRandom(5, 395);
+		r = ofRandom(20, 380);
 	}
 
 	int get_r() {
@@ -28,7 +27,7 @@ public:
 	}
 
 	Food() {
-		this->r = ofRandom(5, 395);
+		this->r = ofRandom(20, 380);
 		this->y = 200;
 	}
 
@@ -79,7 +78,7 @@ public:
 		radius = 20;
 		direction = 1;
 		eatCount = 0;
-		energy = 1000;
+		energy = -1;
 		deathCount = 0;
 		maxSpeed = 10;
 		totalTime = 0;
@@ -97,7 +96,7 @@ public:
 		radius = 20;
 		direction = 1;
 		eatCount = 0;
-		energy = 1000;
+		energy = -1;
 		deathCount = 0;
 		maxSpeed = 10;
 		totalTime = 0;
@@ -197,7 +196,6 @@ public:
 	}
 
 	void eat(Food &meal) {
-	
 		if (x == meal.get_r()) {
 			countCycleTime();
 			eatCount = eatCount + 1;
@@ -244,36 +242,62 @@ public:
 		
 	}
 
+
 	int see(Food &meal) {
-		
-		if ((checkJumps(meal , x, x + 50) != 0) && direction == 1) { //checks for 50px awareness in +ve direction
-			if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1) { //checks for speed awareness +ve direction
+		die();
+		if ((checkJumps(meal, x, x + 50) != 0) && direction == 1) { //checks for 50px awareness
+			if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1) //checks for speed awareness
 				if (energy <= 900) {
 					eat(meal);
 				}
-			}
-			else {
-				move();
-			}
-		}
-
-		else if ((checkJumps(meal, x - 50, x) != 0) && direction == 0) { //checks for 50px awareness in -ve direction
-			if ((checkJumps(meal, x - (energy / 100), x) != 0) && direction == 0) //checks for speed awareness -ve direction
-				if (energy <= 900) {
-					eat(meal);
-				}
-
 				else {
 					move();
 				}
 		}
-		else {
+		else if ((checkJumps(meal, x - 50, x) != 0) && direction == 0) {
+			if ((checkJumps(meal, x - (energy / 100), x) != 0) && direction == 0)
+				if (energy <= 900) {
+					eat(meal);
+				}
+				else {
+					move();
+				}
+		}
+		else{
 			move();
 		}
-		
+
 		return estPos;
-	
 	}
 	
+	   //olfactory, This function checks if the food is within 30px ahead and 15 px behind his nose and flips direction to get there quicker.
+	int	smell(Food &meal) {
+		if ((checkJumps(meal, x, x + 30) != 0) && direction == 1) {//checks for 30px awareness in +ve direction
+			if ((checkJumps(meal, x, (x + (energy/100))) != 0) && direction == 1) //checks for speed awareness +ve direction
+				if (energy <= 900) {
+					eat(meal);
+				}
+		}
+		else if ((checkJumps(meal, x - 30, x) != 0) && direction == 0) { //checks for 30px awareness in -ve direction
+			if ((checkJumps(meal,x - (energy / 100), x) != 0) && direction == 0) //checks for speed awareness -ve direction
+				if (energy <= 900) {
+					eat(meal);
+				}
+
+			if ((checkJumps(meal,x - 15 + radius, x + radius) != 0) && direction == 1) {//checks for 30px awareness in +ve direction
+				if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1) //checks for speed awareness +ve direction
+					if (energy <= 900) {
+						eat(meal);
+					}
+			}
+			else if ((checkJumps(meal,x + radius, x - 15 + radius) != 0) && direction == 0) { //checks for 50px awareness in -ve direction
+				if ((checkJumps(meal,x - (energy / 100), x) != 0) && direction == 0) //checks for speed awareness -ve direction
+					if (energy <= 900) {
+						eat(meal);
+					}
+			}
+				return estPos;
+		}
+	}
 };
 
