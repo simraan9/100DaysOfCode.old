@@ -17,6 +17,7 @@ void ofApp::setup(){
 
 	A = Agent(50, 200,0);
 	meal = Food();
+	Rock = Obstacle();
 	//m = Monitor(A);
 	ofSetBackgroundColor(0);
 }
@@ -27,6 +28,8 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	Rock.display();
+	Rock.appear();
 	A.display();
 	meal.display();
 	A.eat(meal);
@@ -37,6 +40,7 @@ void ofApp::draw(){
 
 	A.die();
 	A.energy = A.energy - 1;
+
 	ofDrawBitmapString("Energy:" , 10, 120);
 	ofDrawBitmapString("Death count: " + to_string(A.deathCount), 200, 140);
 	ofDrawBitmapString("Eat count: " + to_string(A.eatCount), 10, 140);

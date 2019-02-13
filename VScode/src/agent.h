@@ -7,6 +7,50 @@
 #pragma once
 using namespace std;
 
+class Obstacle {
+private:
+	int x;
+	int y;
+
+public:
+	int time;
+	int start;
+	int end;
+
+	void display() {
+		ofDrawRectangle(x, y, 10, 5);
+		ofDrawBitmapString("Obstacle Time: " + to_string(time*1000) + "  " + to_string(end) + "s", 10, 380);
+
+	}
+
+	void respawn() {
+		x = ofRandom(20, 380);
+		y = 200;
+		ofResetElapsedTimeCounter();
+	}
+
+	void appear() {
+		time = ofGetElapsedTimeMillis();
+		start=time/1000;
+		end = ofRandom(10, 30);
+
+		if (start>=end) {
+				respawn();
+			}
+	}
+
+	Obstacle(){
+		this->x = ofRandom(20, 380);
+		this->y = 200;
+
+	}
+	Obstacle (int x, int y) {
+		this->x = x;
+		this->y = y;
+	}
+
+};
+
 class Food {
 private:
 	int r;
@@ -270,22 +314,23 @@ public:
 		return estPos;
 	}
 	
-	   //olfactory, This function checks if the food is within 30px ahead and 15 px behind his nose and flips direction to get there quicker.
+	   //This function checks if the food is within 30px ahead and 15 px behind his nose and flips direction to get there quicker.
+	
 	int	smell(Food &meal) {
-		if ((checkJumps(meal, x, x + 30) != 0) && direction == 1) {//checks for 30px awareness in +ve direction
-			if ((checkJumps(meal, x, (x + (energy/100))) != 0) && direction == 1) //checks for speed awareness +ve direction
+		if ((checkJumps(meal, x, x + 30) != 0) && direction == 1) { 
+			if ((checkJumps(meal, x, (x + (energy/100))) != 0) && direction == 1) 
 				if (energy <= 900) {
 					eat(meal);
 				}
 		}
-		else if ((checkJumps(meal, x - 30, x) != 0) && direction == 0) { //checks for 30px awareness in -ve direction
-			if ((checkJumps(meal,x - (energy / 100), x) != 0) && direction == 0) //checks for speed awareness -ve direction
+		else if ((checkJumps(meal, x - 30, x) != 0) && direction == 0) { 
+			if ((checkJumps(meal,x - (energy / 100), x) != 0) && direction == 0) 
 				if (energy <= 900) {
 					eat(meal);
 				}
 
-			if ((checkJumps(meal,x - 15 + radius, x + radius) != 0) && direction == 1) {//checks for 30px awareness in +ve direction
-				if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1) //checks for speed awareness +ve direction
+			if ((checkJumps(meal,x - 15 + radius, x + radius) != 0) && direction == 1) {
+				if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1) 
 					if (energy <= 900) {
 						eat(meal);
 					}

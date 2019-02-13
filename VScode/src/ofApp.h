@@ -13,6 +13,7 @@
 class ofApp : public ofBaseApp{
 
 	public:
+		Obstacle Rock;
 		Agent A;
 		Food meal;
 		//Timer TimeCount;
