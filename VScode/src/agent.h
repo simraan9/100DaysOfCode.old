@@ -19,7 +19,7 @@ public:
 
 	void display() {
 		ofDrawRectangle(x, y, 10, 5);
-		ofDrawBitmapString("Obstacle Time: " + to_string(time*1000) + "  " + to_string(end) + "s", 10, 380);
+		ofDrawBitmapString("Time: " + to_string(start) + "  End" + to_string(end) + "s", 10, 380);
 
 	}
 
@@ -32,7 +32,7 @@ public:
 	void appear() {
 		time = ofGetElapsedTimeMillis();
 		start=time/1000;
-		end = ofRandom(10, 30);
+		end = ofRandom(5, 30);
 
 		if (start>=end) {
 				respawn();
@@ -42,8 +42,8 @@ public:
 	Obstacle(){
 		this->x = ofRandom(20, 380);
 		this->y = 200;
-
 	}
+
 	Obstacle (int x, int y) {
 		this->x = x;
 		this->y = y;

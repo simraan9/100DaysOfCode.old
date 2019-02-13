@@ -14,7 +14,8 @@ using namespace std;
 
 void ofApp::setup(){
 //	TimeCount = Timer();
-
+	ofSetFrameRate(24);
+	ofSetVerticalSync(true);
 	A = Agent(50, 200,0);
 	meal = Food();
 	Rock = Obstacle();
