@@ -31,7 +31,7 @@ void ofApp::draw(){
     //fill(255,255,255);
     meal.display();
     dummy.die();
-    meal.checkEnergy();
+    //meal.checkEnergy();
 }
 
 //--------------------------------------------------------------
@@ -43,12 +43,12 @@ void Food::reset(){
     this->r = ofRandom(50,350);
 }
 //--------------------------------------------------------------
-void Food :: checkEnergy(Agent energy){
-    this->energy=energy;
-    if (this->energy<0){
-        this->reset();
-    }
-}
+//void Food :: checkEnergy(Agent dummy){
+    //this->energy=energy;
+  //  if (this->energy<0){
+        //this->reset();
+   // }
+//}
     
 //--------------------------------------------------------------
 void Agent::setFood(Food food){

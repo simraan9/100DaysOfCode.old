@@ -32,21 +32,6 @@ public:
     void keyPressed();
 };
 
-class Food{
-public:
-    int r;
-    int y;
-    int energy;
-    Food(){
-        //this.x position of food
-        r=50;
-        y=150;
-    }
-    void display();
-    void reset(); //respawns the food
-    void checkEnergy(Agent energy);
-};
-
 class Agent {
 public:
     int x;
@@ -86,6 +71,19 @@ public:
         //change_f = 0;
         
     }
+    
+    class Food{
+    public:
+        int r;
+        int y;
+        Food(){
+            //this.x position of food
+            r=50;
+            y=150;
+        }
+        void display();
+        void reset(); //respawns the food
+    };
     
     void setFood(Food food);
     void setTimer(Time timer);
