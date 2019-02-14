@@ -22,6 +22,10 @@ public:
 		ofDrawBitmapString("Time: " + to_string(start) + "  End" + to_string(end) + "s", 10, 380);
 
 	}
+	
+	int get_x() {
+		return x ;
+	}
 
 	void respawn() {
 		x = ofRandom(20, 380);
@@ -131,6 +135,7 @@ public:
 		t2 = 0;
 		count = 1;
 		startTime = ofGetElapsedTimeMillis();
+		estPos = 0;
 	}
 
 	Agent(int x, int y, float theta) {
@@ -149,6 +154,7 @@ public:
 		t2 = 0;
 		count = 1;
 		startTime = ofGetElapsedTimeMillis();
+		estPos = 0;
 	}
 
 
@@ -343,6 +349,16 @@ public:
 			}
 				return estPos;
 		}
+	}
+
+	int avoidObstacle(Obstacle &Rock) {
+		if (Rock.get_x() == x + 15 && direction == 1) {
+			return 0;
+		}
+		if (Rock.get_x() == x - 20 && direction == 0) {
+			return 0;
+		}
+		return 1;
 	}
 };
 
