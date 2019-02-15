@@ -29,9 +29,11 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	ofSetColor(255);
 	Rock.display();
 	Rock.appear();
 	A.display();
+	A.displayText();
 	meal.display();
 	A.eat(meal);
 
