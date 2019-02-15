@@ -175,6 +175,20 @@ public:
 
 	void display() {
 
+		if (energy > 0 && energy <= 200) {
+			ofSetColor(0, 0, 60);
+		}
+		else if (energy > 200 && energy <= 400) {
+			ofSetColor(0, 0, 130);
+		}
+		else if (energy > 400 && energy <= 600) {
+			ofSetColor(0, 0, 180);
+		}
+		else {
+			ofSetColor(0, 0, 255);
+		}
+
+
 
 		int x1 = x + (radius*(cos(theta)));
 		int y1 = y + (radius*(sin(theta)));
@@ -191,24 +205,10 @@ public:
 		else if (direction == 0) {
 			ofDrawTriangle(x - radius, y, x - beta + 2 * beta, y - gamma, x - beta + 2 * beta, y + gamma);
 		}
-
-		if (energy > 0 && energy <= 200) {
-			ofSetColor(0,0,60);
-		}
-		else if (energy > 200 && energy <= 400) {
-			ofSetColor(0,0,130);
-		}
-		else if (energy > 400 && energy <= 600) {
-			ofSetColor(0,0,180);
-		}
-		else {
-			ofSetColor(0, 0, 255);
-		}
-
 	}
 
 	void displayText() {
-
+		ofSetColor(255, 255, 255);
 		ofDrawBitmapString("Total Time: " + to_string(t1 / 1000) + "s", 10, 300);
 		ofDrawBitmapString("Average Time: " + to_string(avgTime / 1000) + "s", 10, 320);
 		ofDrawBitmapString("Last cycle Time: " + to_string(cycleTime / 1000) + "s", 10, 340);

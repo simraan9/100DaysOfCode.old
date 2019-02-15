@@ -29,7 +29,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	ofSetColor(255);
+	
 	Rock.display();
 	Rock.appear();
 	A.display();
@@ -44,6 +44,7 @@ void ofApp::draw(){
 	A.die();
 	A.energy = A.energy - 1;
 
+	ofSetColor(255);
 	ofDrawBitmapString("Energy:" , 10, 120);
 	ofDrawBitmapString("Death count: " + to_string(A.deathCount), 200, 140);
 	ofDrawBitmapString("Eat count: " + to_string(A.eatCount), 10, 140);
