@@ -18,7 +18,7 @@ public:
 	int end;
 
 	void display() {
-		ofSetColor(0, 255, 0);
+		ofSetColor(0, 150, 0);
 		ofDrawRectangle(x, y, 10, 5);
 		ofDrawBitmapString("Time: " + to_string(start) + "  End" + to_string(end) + "s", 10, 380);
 
@@ -175,20 +175,8 @@ public:
 
 	void display() {
 
-		if (energy > 0 && energy <= 200) {
-			ofSetColor(0, 0, 60);
-		}
-		else if (energy > 200 && energy <= 400) {
-			ofSetColor(0, 0, 130);
-		}
-		else if (energy > 400 && energy <= 600) {
-			ofSetColor(0, 0, 180);
-		}
-		else {
-			ofSetColor(0, 0, 255);
-		}
-
-
+		ofSetColor(0,0,(energy / 1000) * 255);
+	
 
 		int x1 = x + (radius*(cos(theta)));
 		int y1 = y + (radius*(sin(theta)));
@@ -369,13 +357,29 @@ public:
 	}
 
 	int avoidObstacle(Obstacle &Rock) {
-		if (Rock.get_x() == x + 15 && direction == 1) {
+		if (Rock.get_x() == x + 20 && direction == 1) {
 			return 0;
+
 		}
 		if (Rock.get_x() == x - 20 && direction == 0) {
 			return 0;
 		}
+	
+		int myTimerStart = ofGetElapsedTimeMillis();
+		int	myTotalTime = ofGetElapsedTimeMillis() - myTimerStart;
+
+		if (myTotalTime<=5000 && Rock.get_x() == x - 20 && direction == 0) {
+			flip();
+			return 1;
+		}
+
+		if (myTotalTime <= 5000 && Rock.get_x() == x + 20 && direction == 1) {
+			flip();
+			return 1;
+		}
 		return 1;
 	}
+
+	
 };
 

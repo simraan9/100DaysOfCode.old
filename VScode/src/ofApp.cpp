@@ -20,7 +20,7 @@ void ofApp::setup(){
 	meal = Food();
 	Rock = Obstacle();
 	//m = Monitor(A);
-	ofSetBackgroundColor(0);
+	ofSetBackgroundColor(100,100,100);
 }
 
 //--------------------------------------------------------------
@@ -39,6 +39,9 @@ void ofApp::draw(){
 
 	if ((A.see(meal) >= 0) && (A.smell(meal) >=0) && A.avoidObstacle(Rock)==1) {
 		A.move();
+	}
+	if ((A.see(meal) >= 0) && (A.smell(meal) >= 0) && A.avoidObstacle(Rock) == 0) {
+		A.avoidObstacle(Rock);
 	}
 
 	A.die();
