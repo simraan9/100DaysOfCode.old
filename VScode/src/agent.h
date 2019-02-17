@@ -298,7 +298,7 @@ public:
 	}
 
 
-	int see(Food &meal) {
+	int see(Food meal) {
 		die();
 		if ((checkJumps(meal, x, x + 50) != 0) && direction == 1) { //checks for 50px awareness
 			if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1) //checks for speed awareness
@@ -327,7 +327,7 @@ public:
 	
 	   //This function checks if the food is within 30px ahead and 15 px behind his nose and flips direction to get there quicker.
 	
-	int	smell(Food &meal) {
+	int	smell(Food meal) {
 		if ((checkJumps(meal, x, x + 30) != 0) && direction == 1) { 
 			if ((checkJumps(meal, x, (x + (energy/100))) != 0) && direction == 1) 
 				if (energy <= 900) {
@@ -364,7 +364,7 @@ public:
 		if (Rock.get_x() == x - 20 && direction == 0) {
 			return 0;
 		}
-	
+
 		int myTimerStart = ofGetElapsedTimeMillis();
 		int	myTotalTime = ofGetElapsedTimeMillis() - myTimerStart;
 
@@ -379,7 +379,25 @@ public:
 		}
 		return 1;
 	}
+	
 
+	int avoidEdge(Food meal) {
+		if ((x>=350 && see(meal) != 0 && direction ==1) /*&& meal.get_r() < x*/) {
+			flip();
+			return 1;
+		}
+		if ((x<=50 && see(meal) != 0 &&direction ==0) /*&& meal.get_r() > x */) { // if there is no food within 50 px of edge 
+			flip();
+			return 1;
+		}
+		if ((x >= 350 && see(meal) == 0 && direction == 1) /*&& meal.get_r() < x*/) { // if there is food within 50 px of edge
+			return 1;
+		}
+		if ((x <= 50 && see(meal) == 0 && direction == 0) /*&& meal.get_r() > x */) {
+			return 1;
+		}
+		return 0;
+	}
 	
 };
 

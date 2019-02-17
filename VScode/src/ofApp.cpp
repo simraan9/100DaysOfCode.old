@@ -44,8 +44,16 @@ void ofApp::draw(){
 		A.avoidObstacle(Rock);
 	}
 
+	A.avoidEdge(meal);
 	A.die();
 	A.energy = A.energy - 1;
+
+//	if (A.get_x() <= 380) {
+	//	A.avoidEdge(meal);
+	//}
+	//if (A.get_x() <= 20) {
+		//A.avoidEdge(meal);
+	//}
 
 	ofSetColor(255);
 	ofDrawBitmapString("Energy:" , 10, 120);
