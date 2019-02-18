@@ -215,22 +215,29 @@ public:
 		return direction;
 	}
 
+	int rest() {
+		if (energy >= 900) {
+			return 0;
+		}
+	return 1;
+	}
+
 	void move() {
-	
-		if (x >= 0+radius && direction == 1) {
-			x = x + 1;
+		if (rest() == 1) {
+			if (x >= 0 + radius && direction == 1) {
+				x = x + 1;
+			}
+			else if (x <= 400 - radius && direction == 0) {
+				x = x - 1;
+			}
+
+			if (x == 0 + radius) {
+				this->flip();
+			}
+			else if (x == 400 - radius) {
+				this->flip();
+			}
 		}
-		else if (x <= 400-radius && direction == 0) {
-			x = x - 1;
-		}
-	
-		if (x == 0+radius) {
-			this->flip();
-		}
-		else if (x == 400-radius){
-			this->flip();
-		}
-		
 	
 	}
 
@@ -318,86 +325,80 @@ public:
 					move();
 				}
 		}
-		else{
+		else {
 			move();
 		}
 
-		return estPos;
+	return estPos;
 	}
-	
-	   //This function checks if the food is within 30px ahead and 15 px behind his nose and flips direction to get there quicker.
-	
+
+	//This function checks if the food is within 30px ahead and 15 px behind his nose and flips direction to get there quicker.
+
 	int	smell(Food meal) {
-		if ((checkJumps(meal, x, x + 30) != 0) && direction == 1) { 
-			if ((checkJumps(meal, x, (x + (energy/100))) != 0) && direction == 1) 
+		if ((checkJumps(meal, x, x + 30) != 0) && direction == 1) {
+			if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1)
 				if (energy <= 900) {
 					eat(meal);
 				}
 		}
-		else if ((checkJumps(meal, x - 30, x) != 0) && direction == 0) { 
-			if ((checkJumps(meal,x - (energy / 100), x) != 0) && direction == 0) 
+		else if ((checkJumps(meal, x - 30, x) != 0) && direction == 0) {
+			if ((checkJumps(meal, x - (energy / 100), x) != 0) && direction == 0)
 				if (energy <= 900) {
 					eat(meal);
 				}
 
-			if ((checkJumps(meal,x - 15 + radius, x + radius) != 0) && direction == 1) {
-				if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1) 
+			if ((checkJumps(meal, x - 15 + radius, x + radius) != 0) && direction == 1) {
+				if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1)
 					if (energy <= 900) {
 						eat(meal);
 					}
 			}
-			else if ((checkJumps(meal,x + radius, x - 15 + radius) != 0) && direction == 0) { //checks for 50px awareness in -ve direction
-				if ((checkJumps(meal,x - (energy / 100), x) != 0) && direction == 0) //checks for speed awareness -ve direction
+			else if ((checkJumps(meal, x + radius, x - 15 + radius) != 0) && direction == 0) { //checks for 50px awareness in -ve direction
+				if ((checkJumps(meal, x - (energy / 100), x) != 0) && direction == 0) //checks for speed awareness -ve direction
 					if (energy <= 900) {
 						eat(meal);
 					}
 			}
-				return estPos;
+			return estPos;
 		}
 	}
 
 	int avoidObstacle(Obstacle &Rock) {
 		if (Rock.get_x() == x + 20 && direction == 1) {
+			dodgeObstacle();
 			return 0;
 
 		}
 		if (Rock.get_x() == x - 20 && direction == 0) {
+			dodgeObstacle();
 			return 0;
 		}
 
-		int myTimerStart = ofGetElapsedTimeMillis();
-		int	myTotalTime = ofGetElapsedTimeMillis() - myTimerStart;
-
-		if (myTotalTime<=5000 && Rock.get_x() == x - 20 && direction == 0) {
-			flip();
-			return 1;
-		}
-
-		if (myTotalTime <= 5000 && Rock.get_x() == x + 20 && direction == 1) {
-			flip();
-			return 1;
-		}
-		return 1;
 	}
-	
 
+	int dodgeObstacle() {
+		int myTimerStart = ofGetElapsedTimeMillis();
+		
+		if (myTimerStart <= 9000) {
+			flip();
+			return 1;
+		}
+	}
+
+	
 	int avoidEdge(Food meal) {
-		if ((x>=350 && see(meal) != 0 && direction ==1) /*&& meal.get_r() < x*/) {
+		if (x >= 350 && see(meal) != 0 && direction == 1) {
 			flip();
 			return 1;
 		}
-		if ((x<=50 && see(meal) != 0 &&direction ==0) /*&& meal.get_r() > x */) { // if there is no food within 50 px of edge 
+		if (x <= 50 && see(meal) != 0 && direction == 0 ) { // if there is no food within 50 px of edge 
 			flip();
-			return 1;
-		}
-		if ((x >= 350 && see(meal) == 0 && direction == 1) /*&& meal.get_r() < x*/) { // if there is food within 50 px of edge
-			return 1;
-		}
-		if ((x <= 50 && see(meal) == 0 && direction == 0) /*&& meal.get_r() > x */) {
 			return 1;
 		}
 		return 0;
 	}
 	
+
+
 };
 

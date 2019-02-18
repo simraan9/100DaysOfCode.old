@@ -37,11 +37,8 @@ void ofApp::draw(){
 	meal.display();
 	A.eat(meal);
 
-	if ((A.see(meal) >= 0) && (A.smell(meal) >=0) && A.avoidObstacle(Rock)==1) {
+	if ((A.see(meal) >= 0) && (A.smell(meal) >=0) && A.avoidObstacle(Rock)>=0) {
 		A.move();
-	}
-	if ((A.see(meal) >= 0) && (A.smell(meal) >= 0) && A.avoidObstacle(Rock) == 0) {
-		A.avoidObstacle(Rock);
 	}
 
 	A.avoidEdge(meal);
