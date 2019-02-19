@@ -219,13 +219,18 @@ public:
     }
     
     int rest() {
-        if (energy >= 900) {
+        if (totalTime>=25000){
+            energy=energy+1;
+            return 0;
+        }
+        if (energy >= 950) {
             return 0;
         }
         return 1;
     }
     
     void move() {
+        
         if (rest() == 1) {
             if (x >= 0 + radius && direction == 1) {
                 x = x + 1;
@@ -235,10 +240,10 @@ public:
             }
             
             if (x == 0 + radius) {
-                this->flip();
+                flip();
             }
             else if (x == 400 - radius) {
-                this->flip();
+                flip();
             }
         }
         
