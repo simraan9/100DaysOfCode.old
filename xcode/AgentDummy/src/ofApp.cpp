@@ -25,6 +25,14 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    
+    if ((A.see(meal) >= 0) && (A.smell(meal) >=0) && A.avoidObstacle(Rock)>0) {
+        A.move();
+    }
+    
+    A.avoidEdge(meal);
+    A.die();
+    A.energy = A.energy - 1;
 }
 
 //--------------------------------------------------------------
@@ -36,14 +44,6 @@ void ofApp::draw(){
     A.displayText();
     meal.display();
     A.eat(meal);
-    
-    if ((A.see(meal) >= 0) && (A.smell(meal) >=0) && A.avoidObstacle(Rock)>0) {
-        A.move();
-    }
-    
-    A.avoidEdge(meal);
-    A.die();
-    A.energy = A.energy - 1;
     
     //    if (A.get_x() <= 380) {
     //    A.avoidEdge(meal);

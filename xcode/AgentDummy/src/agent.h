@@ -386,7 +386,6 @@ public:
         }
         else if (myTimerStart > 3000) {
             flip();
-            return 1;
         }
     }
     
