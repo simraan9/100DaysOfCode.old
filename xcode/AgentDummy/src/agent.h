@@ -11,34 +11,34 @@ class Obstacle {
 private:
     int x;
     int y;
-    
+
 public:
     int time;
     int start;
     int end;
-    
+
     void display() {
         ofSetColor(0, 150, 0);
         ofDrawRectangle(x, y, 10, 5);
         ofDrawBitmapString("Time: " + to_string(start) + "  End" + to_string(end) + "s", 10, 380);
-        
+
     }
-    
+
     int get_x() {
         return x ;
     }
-    
+
     void respawn() {
         x = ofRandom(20, 380);
         y = 200;
         ofResetElapsedTimeCounter();
     }
-    
+
     void appear() {
         time = ofGetElapsedTimeMillis();
         start=time/1000;
         end = ofRandom(5, 30);
-        
+
         if (start>=end) {
             respawn();
         }
@@ -60,29 +60,29 @@ class Food {
 private:
     int r;
     int y;
-    
+
 public:
-    
+
     void display() {
         ofSetColor(255, 0, 0);
         ofDrawCircle(r, y, 5, 5);
     }
-    
+
     void reset() {
         r = ofRandom(50, 350);
     }
-    
+
     int get_r() {
         return r;
     }
-    
+
     Food() {
         this->r = ofRandom(50, 350);
         this->y = 200;
     }
-    
-    
-    
+
+
+
 };
 
 
@@ -94,7 +94,7 @@ private:
     float theta;
     int beta;
     int gamma;
-    
+
     int x1;
     int y1;
     int x2;
@@ -102,15 +102,15 @@ private:
     int x3;
     int y3;
     int direction;
-    
+
     int endTime;
     int cycleTime;
     int t2;
     int totalTime;
     int avgTime;
     int count;
-    
-    
+
+
 public:
     int eatCount;
     float energy;
@@ -121,7 +121,7 @@ public:
     int foodPos;
     int estPos;
     int returnStatus;
-    
+
     Agent() {
         x = 100;
         y = 200;
@@ -141,7 +141,7 @@ public:
         estPos = 0;
         returnStatus=0;
     }
-    
+
     Agent(int x, int y, float theta) {
         this->x = x;
         this->y = y;
@@ -161,26 +161,26 @@ public:
         estPos = 0;
         returnStatus=0;
     }
-    
-    
-    
+
+
+
     int get_x() {
         return x;
     }
-    
+
     int get_y() {
         return y;
     }
-    
+
     int get_energy() {
         return energy;
     }
-    
+
     void display() {
-        
+
         ofSetColor(0,0,(energy / 1000) * 255);
-        
-        
+
+
         int x1 = x + (radius*(cos(theta)));
         int y1 = y + (radius*(sin(theta)));
         int x2 = x + (radius*(cos(theta + 2 * (PI / 3) + (PI / 8))));
@@ -189,7 +189,7 @@ public:
         int y3 = y + (radius*(sin(theta + (-4)*(PI / 6) - (PI / 8))));
         beta = radius*cos(2 * PI / 9);
         gamma = radius*sin(2 * PI / 9);
-        
+
         if (direction == 1) {
             ofDrawTriangle(x + radius, y, x - beta, y - gamma, x - beta, y + gamma);
         }
@@ -197,18 +197,18 @@ public:
             ofDrawTriangle(x - radius, y, x - beta + 2 * beta, y - gamma, x - beta + 2 * beta, y + gamma);
         }
     }
-    
+
     void displayText() {
         ofSetColor(255, 255, 255);
         ofDrawBitmapString("Total Time: " + to_string(t1 / 1000) + "s", 10, 300);
         ofDrawBitmapString("Average Time: " + to_string(avgTime / 1000) + "s", 10, 320);
         ofDrawBitmapString("Last cycle Time: " + to_string(cycleTime / 1000) + "s", 10, 340);
-        
+
     }
-    
-    
+
+
     int flip() {
-        
+
         if (direction == 1) {
             direction = 0;
         }
@@ -217,7 +217,7 @@ public:
         }
         return direction;
     }
-    
+
     int rest() {
         if (totalTime>=25000){
             energy=energy+1;
@@ -228,34 +228,34 @@ public:
         }
         return 1;
     }
-    
-    void move() {
-        
-        if (rest() == 1) {
-            if (x >= 0 + radius && direction == 1) {
-                x = x + 1;
-            }
-            else if (x <= 400 - radius && direction == 0) {
-                x = x - 1;
-            }
-            
-            if (x == 0 + radius) {
-                flip();
-            }
-            else if (x == 400 - radius) {
-                flip();
+
+    void move(Food &meal, Obstacle &rock) {
+        if ((see(meal, rock) >= 0) && (smell(meal) >=0) && avoidObstacle(rock)>0) {
+            if (rest() == 1) {
+                if (x >= 0 + radius && direction == 1) {
+                    x = x + 1;
+                }
+                else if (x <= 400 - radius && direction == 0) {
+                    x = x - 1;
+                }
+
+                if (x == 0 + radius) {
+                    flip();
+                }
+                else if (x == 400 - radius) {
+                    flip();
+                }
             }
         }
-        
     }
-    
+
     void displayTime() {
         ofDrawBitmapString("Time " + to_string(startTime), 10, 250);
     }
     void resetTime() {
         startTime = ofGetElapsedTimeMillis();
     }
-    
+
     void countCycleTime() {
         t1 = startTime;
         cycleTime = t1 - t2;
@@ -264,7 +264,7 @@ public:
         t2 = t1;
         count = count + 1;
     }
-    
+
     void eat(Food &meal) {
         if (x == meal.get_r()) {
             countCycleTime();
@@ -273,14 +273,14 @@ public:
             resetTime();
             energy = energy + 50;
         }
-        
+
     }
-    
+
     void respawn() {
         x = ofRandom(0, 400);
-        
+
     }
-    
+
     void die() {
         if (energy <= 0) {
             respawn();
@@ -288,11 +288,11 @@ public:
             deathCount = deathCount + 1;
         }
     }
-    
+
     int checkJumps(Food &meal, int pos1, int pos2) {
-        
+
         foodPos = meal.get_r();
-        
+
         if (direction == 1) {
             for (int i = pos1; i < pos2 + 1; i++) {
                 if (i >= foodPos - 1 && i <= foodPos + 1) {
@@ -300,7 +300,7 @@ public:
                 }
             }
         }
-        
+
         else if (direction == 0) {
             for (int j = pos2; j > pos1 - 1; j--) {
                 if (j >= foodPos - 1 && j <= foodPos + 1) {
@@ -309,11 +309,10 @@ public:
             }
         }
         return estPos;
-        
     }
-    
-    
-    int see(Food meal) {
+
+
+    int see(Food &meal, Obstacle &rock) {
         die();
         if ((checkJumps(meal, x, x + 50) != 0) && direction == 1) { //checks for 50px awareness
             if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1) //checks for speed awareness
@@ -321,7 +320,7 @@ public:
                     eat(meal);
                 }
                 else {
-                    move();
+                    move(meal, rock);
                 }
         }
         else if ((checkJumps(meal, x - 50, x) != 0) && direction == 0) {
@@ -330,18 +329,18 @@ public:
                     eat(meal);
                 }
                 else {
-                    move();
+                    move(meal, rock);
                 }
         }
         else {
-            move();
+            move(meal, rock);
         }
-        
+
         return estPos;
     }
-    
+
     //This function checks if the food is within 30px ahead and 15 px behind his nose and flips direction to get there quicker.
-    
+
     int smell(Food meal) {
         if ((checkJumps(meal, x, x + 30) != 0) && direction == 1) {
             if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1)
@@ -354,7 +353,7 @@ public:
                 if (energy <= 900) {
                     eat(meal);
                 }
-            
+
             if ((checkJumps(meal, x - 15 + radius, x + radius) != 0) && direction == 1) {
                 if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1)
                     if (energy <= 900) {
@@ -370,22 +369,22 @@ public:
             return estPos;
         }
     }
-    
-    int avoidObstacle(Obstacle &Rock) {
-        if (Rock.get_x() == x + 20 && direction == 1) {
+
+    int avoidObstacle(Obstacle &rock) {
+        if (rock.get_x() == x + 20 && direction == 1) {
             returnStatus = wait();
             return returnStatus;
-            
+
         }
-        if (Rock.get_x() == x - 20 && direction == 0) {
+        if (rock.get_x() == x - 20 && direction == 0) {
             returnStatus = wait();
             return returnStatus;
         }
     }
-    
+
     int wait() {
         int myTimerStart = ofGetElapsedTimeMillis();
-        
+
         if (myTimerStart <= 3000) {
             return 0;
         }
@@ -393,20 +392,20 @@ public:
             flip();
         }
     }
-    
-    
-    int avoidEdge(Food meal) {
-        if (x >= 350 && see(meal) != 0 && direction == 1) {
+
+
+    int avoidEdge(Food &meal, Obstacle &rock) {
+        if (x >= 350 && see(meal,rock) != 0 && direction == 1) {
             flip();
             return 1;
         }
-        if (x <= 50 && see(meal) != 0 && direction == 0 ) { // if there is no food within 50 px of edge
+        if (x <= 50 && see(meal,rock) != 0 && direction == 0 ) { // if there is no food within 50 px of edge
             flip();
             return 1;
         }
         return 0;
     }
-    
-    
-    
+
+
+
 };
