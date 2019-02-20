@@ -44,8 +44,8 @@ public:
     }
 
     Obstacle(){
-        this->x = ofRandom(20, 380);
-        this->y = 200;
+        x = ofRandom(20, 380);
+        y = 200;
     }
 
     Obstacle (int x, int y) {
@@ -76,8 +76,8 @@ public:
     }
 
     Food() {
-        this->r = ofRandom(50, 350);
-        this->y = 200;
+        r = ofRandom(50, 350);
+        y = 200;
     }
 };
 
@@ -97,11 +97,9 @@ private:
     int y2;
     int x3;
     int y3;
-    int direction;
 
     int endTime;
     int cycleTime;
-    int t2;
     int totalTime;
     int avgTime;
     int count;
@@ -112,11 +110,13 @@ public:
     float energy;
     int deathCount;
     int maxSpeed;
-    int startTime;
-    int t1;
+    unsigned long long startTime;
+    unsigned long long t1;
+    unsigned long long t2;
     int foodPos;
     int estPos;
     int returnStatus;
+    int direction;
 
     Food f;
     Obstacle o;
@@ -226,12 +226,12 @@ public:
     int rest() {
         if (totalTime>=25000){
             energy=energy+1;
-            return 0;
+            return 1;
         }
         if (energy >= 900) {
-            return 0;
+            return 1;
         }
-        return 1;
+        return 0;
     }
 
     void move() {
@@ -262,8 +262,8 @@ public:
     }
 
     void countCycleTime() {
-        t1 = startTime;
-        cycleTime = t1 - t2;
+        t1 = int(startTime);
+        cycleTime = int(t1 - t2);
         totalTime = totalTime + cycleTime;
         avgTime = totalTime/count;
         t2 = t1;
@@ -318,28 +318,55 @@ public:
 
 
     int see() {
-        if ((checkJumps(x, x + 50) != 0) && direction == 1) { //checks for 50px awareness
-            if ((checkJumps(x, (x + (energy / 100))) != 0) && direction == 1) //checks for speed awareness
+            if(checkJumps(x,x+50)!=0){
+                if (checkJumps(x, (x + (energy / 100))) != 0){
+                    if(direction==1){
+                        eat();
+                    }
+                }
+                else{
+                    move();
+                }
+            }
+
+            else if(checkJumps(x-50,x)!=0){
+                if (checkJumps(x - (energy / 100), x) != 0){
+                    if(direction==0){
+                        eat();
+                    }
+                }
+                else{
+                    move();
+                }
+            }
+            else {
+                move();
+            }
+        /*if ((checkJumps(x, x + 50) != 0) && (direction == 1)) { //checks for 50px awareness
+            if ((checkJumps(x, (x + (energy / 100))) != 0) && direction == 1){ //checks for speed awareness
                 if (energy <= 900) {
-                    eat();
+
                 }
                 else {
                     move();
                 }
+            }
         }
         else if ((checkJumps(x - 50, x) != 0) && direction == 0) {
-            if ((checkJumps(x - (energy / 100), x) != 0) && direction == 0)
+            if ((checkJumps(x - (energy / 100), x) != 0) && direction == 0){
                 if (energy <= 900) {
                     eat();
                 }
                 else {
                     move();
                 }
+            }
         }
         else {
             move();
         }
 
+        return estPos;*/
         return estPos;
     }
 
@@ -372,6 +399,7 @@ public:
             }
             return estPos;
         }
+        return -1;
     }
 
     int avoidObstacle() {
@@ -384,10 +412,11 @@ public:
             returnStatus = wait();
             return returnStatus;
         }
+        return -1;
     }
 
     int wait() {
-        int myTimerStart = ofGetElapsedTimeMillis();
+        unsigned long long myTimerStart = ofGetElapsedTimeMillis();
 
         if (myTimerStart <= 3000) {
             return 0;
@@ -395,6 +424,7 @@ public:
         else if (myTimerStart > 3000) {
             flip();
         }
+        return -1;
     }
 
 
