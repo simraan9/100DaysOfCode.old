@@ -21,14 +21,16 @@ void ofApp::setup(){
     rock = Obstacle();
     //m = Monitor(A);
     ofSetBackgroundColor(100,100,100);
+    A.bindFood(meal);
+    A.bindObstacle(rock);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     
-    A.move(meal,rock);
+    A.move();
     
-    A.avoidEdge(meal, rock);
+    A.avoidEdge();
     A.die();
     A.energy = A.energy - 1;
 }
@@ -41,7 +43,7 @@ void ofApp::draw(){
     A.display();
     A.displayText();
     meal.display();
-    A.eat(meal);
+    A.eat();
     
     //    if (A.get_x() <= 380) {
     //    A.avoidEdge(meal);
