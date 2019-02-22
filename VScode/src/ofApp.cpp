@@ -14,7 +14,7 @@ using namespace std;
 
 void ofApp::setup() {
 	//    TimeCount = Timer();
-	int simulationSpeed = 24;
+	int simulationSpeed = 30;
 	ofSetFrameRate(simulationSpeed);
 	ofSetVerticalSync(true);
 	A = Agent(50, 200, 0);
@@ -65,12 +65,13 @@ void ofApp::draw() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
-	if (key == OF_KEY_LEFT) {
+/*	if (key == OF_KEY_LEFT) {
 		simulationSpeed = simulationSpeed + 20;
 	}
 	else if (key == OF_KEY_RIGHT) {
 		simulationSpeed = simulationSpeed - 20;
 	}
+	*/
 }
 
 //--------------------------------------------------------------

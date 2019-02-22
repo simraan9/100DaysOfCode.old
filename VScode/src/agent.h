@@ -19,9 +19,8 @@ public:
 
 	void display() {
 		ofSetColor(0, 150, 0);
-		ofDrawRectangle(x, y, 10, 5);
+		ofDrawRectangle(x, y, 10, 20);
 		ofDrawBitmapString("Time: " + to_string(start) + "  End" + to_string(end) + "s", 10, 380);
-
 	}
 
 	int get_x() {
@@ -69,7 +68,7 @@ public:
 	}
 
 	void reset() {
-		r = ofRandom(50, 350);
+		r = ofRandom(20, 380);
 	}
 
 	int get_r() {
