@@ -85,6 +85,39 @@ public:
     
 };
 
+class Poison{
+    
+private:
+    
+    int p;
+    int y;
+    
+public:
+    
+    Poison(){
+        this->p = ofRandom(50,350);
+        this->y = 200;
+    }
+    
+    void reset(){
+        p = ofRandom(50,350);
+    }
+    
+    int get_p(){
+        return p;
+    }
+    
+    void display(){
+        ofNoFill();
+        ofSetColor(255, 0, 0);
+        ofDrawCircle(p, y, 5, 5);
+        ofFill();
+    }
+    
+};
+
+
+
 
 class Agent {
 private:
@@ -270,6 +303,15 @@ public:
         }
         
     }
+    
+    void eatPoison(Poison &pill){
+        if (x== pill.get_p()) {
+            energy = energy-100;
+            pill.reset();
+        }
+        
+    }
+    
     
     void respawn() {
         x = ofRandom(0, 400);
