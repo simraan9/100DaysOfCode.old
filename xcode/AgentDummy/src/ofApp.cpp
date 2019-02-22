@@ -18,32 +18,35 @@ void ofApp::setup(){
     ofSetVerticalSync(true);
     A = Agent(50, 200,0);
     meal = Food();
-    rock = Obstacle();
+    Rock = Obstacle();
+    pill = Poison();
     //m = Monitor(A);
     ofSetBackgroundColor(100,100,100);
-    A.bindFood(meal);
-    A.bindObstacle(rock);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     
-    A.move();
+    if ((A.see(meal) >= 0) && (A.smell(meal) >=0) && A.avoidObstacle(Rock)>0) {
+        A.move();
+    }
     
-    A.avoidEdge();
+    A.avoidEdge(meal);
     A.die();
+    A.eatPoison(pill);
     A.energy = A.energy - 1;
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    rock.display();
-    rock.appear();
+    Rock.display();
+    Rock.appear();
     A.display();
     A.displayText();
     meal.display();
-    A.eat();
+    A.eat(meal);
+    pill.display();
     
     //    if (A.get_x() <= 380) {
     //    A.avoidEdge(meal);

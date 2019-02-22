@@ -13,9 +13,10 @@
 class ofApp : public ofBaseApp{
     
 public:
-    Obstacle rock;
+    Obstacle Rock;
     Agent A;
     Food meal;
+    Poison pill;
     //Timer TimeCount;
     void setup();
     void update();
