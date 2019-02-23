@@ -19,9 +19,10 @@ public:
     
     void display() {
         ofSetColor(100, 150, 100);
-        ofDrawRectangle(x,y-15,10,30);
         ofDrawBitmapString("Time: " + to_string(start) + "  End" + to_string(end) + "s", 10, 380);
-        
+		if (controlDisplay() == 0) {
+			ofDrawRectangle(x, y - 15, 10, 30);
+		}
     }
     
     int get_x() {
@@ -33,6 +34,21 @@ public:
         y = 200;
         ofResetElapsedTimeCounter();
     }
+
+	int controlDisplay() {
+		float endT = ofRandom(10000, 30000);
+		float timer = ofGetElapsedTimeMillis();
+
+		if (timer < endT) {
+			appear();
+			return 0;
+		}
+		else if (timer > endT) {
+			timer = 0;
+		}
+
+		return 1;
+	}
     
     void appear() {
         time = ofGetElapsedTimeMillis();

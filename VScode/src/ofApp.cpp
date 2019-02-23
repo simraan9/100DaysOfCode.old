@@ -41,7 +41,7 @@ void ofApp::update(){
 void ofApp::draw(){
     
     Rock.display();
-    Rock.appear();
+    Rock.controlDisplay();
     A.display();
     A.displayText();
     meal.display();
