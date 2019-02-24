@@ -10,13 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/agent.h"
-            timestampString = "572541772.7615221"
+            timestampString = "572721078.645638"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "279"
-            endingLineNumber = "279"
-            landmarkName = "Agent"
-            landmarkType = "3">
+            startingLineNumber = "289"
+            endingLineNumber = "289"
+            landmarkName = "move()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -18,10 +18,11 @@ public:
     int end;
     
     void display() {
-        ofSetColor(0, 150, 0);
-        ofDrawRectangle(x, y, 10, 5);
+        ofSetColor(100, 150, 100);
         ofDrawBitmapString("Time: " + to_string(start) + "  End" + to_string(end) + "s", 10, 380);
-        
+        if (controlDisplay() == 0) {
+            ofDrawRectangle(x, y - 15, 10, 30);
+        }
     }
     
     int get_x() {
@@ -32,6 +33,21 @@ public:
         x = ofRandom(20, 380);
         y = 200;
         ofResetElapsedTimeCounter();
+    }
+    
+    int controlDisplay() {
+        float endT = ofRandom(10000, 30000);
+        float timer = ofGetElapsedTimeMillis();
+        
+        if (timer < endT) {
+            appear();
+            return 0;
+        }
+        else if (timer > endT) {
+            timer = 0;
+        }
+        
+        return 1;
     }
     
     void appear() {
@@ -211,8 +227,6 @@ public:
     
     void display() {
         
-        ofSetColor(0,0,(energy / 1000) * 255);
-        
         
         int x1 = x + (radius*(cos(theta)));
         int y1 = y + (radius*(sin(theta)));
@@ -224,10 +238,22 @@ public:
         gamma = radius*sin(2 * PI / 9);
         
         if (direction == 1) {
+            ofSetColor(0,0,(energy / 1000) * 255);
             ofDrawTriangle(x + radius, y, x - beta, y - gamma, x - beta, y + gamma);
+            
+            ofSetColor(0,255,0);
+            ofDrawLine(x, y, x+50, y);
+            ofSetColor(0,255,255);
+            ofDrawLine(x-15-radius, y, x+30, y);
         }
         else if (direction == 0) {
+            ofSetColor(0,0,(energy / 1000) * 255);
             ofDrawTriangle(x - radius, y, x - beta + 2 * beta, y - gamma, x - beta + 2 * beta, y + gamma);
+            
+            ofSetColor(0,255,0);
+            ofDrawLine(x-50, y, x, y);
+            ofSetColor(0,255,255);
+            ofDrawLine(x-30-radius, y, x+15, y);
         }
     }
     
@@ -352,6 +378,7 @@ public:
     
     int see(Food meal) {
         die();
+        ofDrawLine(x, y, x+50, y);
         if ((checkJumps(meal, x, x + 50) != 0) && direction == 1) { //checks for 50px awareness
             if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1) //checks for speed awareness
                 if (energy <= 900) {
