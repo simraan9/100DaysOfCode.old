@@ -20,6 +20,8 @@ void ofApp::setup(){
     Rock = Obstacle();
     pill = Poison();
     ofSetBackgroundColor(100,100,100);
+	ofResetElapsedTimeCounter();
+	timer = Time();
 }
 
 //--------------------------------------------------------------
@@ -34,6 +36,7 @@ void ofApp::update(){
     A.eatPoison(pill);
     A.energy = A.energy - 1;
 	//Rock.controlDisplay();
+	time = ofGetElapsedTimeMillis();
 }
 
 //--------------------------------------------------------------

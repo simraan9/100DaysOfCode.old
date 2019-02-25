@@ -17,6 +17,7 @@ public:
     Agent A;
     Food meal;
     Poison pill;
+	Time timer;
     void setup();
     void update();
     void draw();

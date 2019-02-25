@@ -7,6 +7,16 @@
 #pragma once
 using namespace std;
 
+class Time {
+public:
+	float currentTime;
+
+	Time() {
+		currentTime= ofGetElapsedTimeMillis();
+	}
+};
+
+
 class Obstacle {
 private:
 	int x;
@@ -36,14 +46,14 @@ public:
 	}
 
 	int controlDisplay() {
-		float endT = ofRandom(10000, 30000);
-		float timer = ofGetElapsedTimeMillis();
+		float endT = ofGetElapsedTimeMillis();
+		float timePeriod = time - endT;
 
-		if (timer < endT) {
+		if (timePeriod < 10000) {
 			appear();
 			return 0;
 		}
-		else if (timer > endT) {
+		else if (timePeriod > 10000) {
 
 			//timer = ofResetElapsedTimeCounter(); //timer = 0;
 			return 1;
