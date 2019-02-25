@@ -13,14 +13,12 @@ using namespace std;
 //--------------------------------------------------------------
 
 void ofApp::setup(){
-    //    TimeCount = Timer();
     ofSetFrameRate(24);
     ofSetVerticalSync(true);
     A = Agent(50, 200,0);
     meal = Food();
     Rock = Obstacle();
     pill = Poison();
-    //m = Monitor(A);
     ofSetBackgroundColor(100,100,100);
 }
 
@@ -35,6 +33,7 @@ void ofApp::update(){
     A.die();
     A.eatPoison(pill);
     A.energy = A.energy - 1;
+	//Rock.controlDisplay();
 }
 
 //--------------------------------------------------------------
