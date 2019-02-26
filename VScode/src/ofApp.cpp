@@ -35,8 +35,7 @@ void ofApp::update(){
     A.die();
     A.eatPoison(pill);
     A.energy = A.energy - 1;
-	//Rock.controlDisplay();
-	//time = ofGetElapsedTimeMillis();
+
 }
 
 //--------------------------------------------------------------
@@ -49,14 +48,7 @@ void ofApp::draw(){
     meal.display();
     A.eat(meal);
     pill.display();
-    
-    //    if (A.get_x() <= 380) {
-    //    A.avoidEdge(meal);
-    //}
-    //if (A.get_x() <= 20) {
-    //A.avoidEdge(meal);
-    //}
-    
+
     ofSetColor(255);
     ofDrawBitmapString("Energy:" , 10, 120);
     ofDrawBitmapString("Death count: " + to_string(A.deathCount), 200, 140);

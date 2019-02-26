@@ -238,14 +238,6 @@ public:
 	}
 
 	void display() {
-
-
-		int x1 = x + (radius*(cos(theta)));
-		int y1 = y + (radius*(sin(theta)));
-		int x2 = x + (radius*(cos(theta + 2 * (PI / 3) + (PI / 8))));
-		int y2 = y + (radius*(sin(theta + 2 * (PI / 3) + (PI / 8))));
-		int x3 = x + (radius*(cos(theta + (-4)*(PI / 6) - (PI / 8))));
-		int y3 = y + (radius*(sin(theta + (-4)*(PI / 6) - (PI / 8))));
 		beta = radius * cos(2 * PI / 9);
 		gamma = radius * sin(2 * PI / 9);
 

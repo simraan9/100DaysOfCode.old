@@ -1,8 +1,10 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (obj\Win32\Debug\) contains files shared from another project (AgentDummy_myWiseSketch.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  main.cpp
   ofApp.cpp
-d:\simran\openframeworks\apps\myapps\100daysofcode\vscode\src\agent.h(464): warning C4715: 'Agent::avoidObstacle': not all control paths return a value
-d:\simran\openframeworks\apps\myapps\100daysofcode\vscode\src\agent.h(452): warning C4715: 'Agent::smell': not all control paths return a value
-d:\simran\openframeworks\apps\myapps\100daysofcode\vscode\src\agent.h(475): warning C4715: 'Agent::wait': not all control paths return a value
+d:\simran\openframeworks\apps\myapps\100daysofcode\vscode\src\agent.h(444): warning C4715: 'Agent::smell': not all control paths return a value
+d:\simran\openframeworks\apps\myapps\100daysofcode\vscode\src\agent.h(456): warning C4715: 'Agent::avoidObstacle': not all control paths return a value
+d:\simran\openframeworks\apps\myapps\100daysofcode\vscode\src\agent.h(467): warning C4715: 'Agent::wait': not all control paths return a value
+     Creating library bin\VScode_debug.lib and object bin\VScode_debug.exp
   VScode.vcxproj -> D:\Simran\Openframeworks\apps\myApps\100DaysOfCode\VScode\bin\VScode_debug.exe
   
   	                   2	D:\Simran\Openframeworks\libs\fmodex\lib\vs\Win32\
