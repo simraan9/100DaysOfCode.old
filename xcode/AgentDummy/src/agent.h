@@ -44,7 +44,9 @@ public:
             return 0;
         }
         else if (timer > endT) {
-            timer = 0;
+			
+			//timer = ofResetElapsedTimeCounter(); //timer = 0;
+			return 1;
         }
         
         return 1;
@@ -262,7 +264,11 @@ public:
         ofDrawBitmapString("Total Time: " + to_string(t1 / 1000) + "s", 10, 300);
         ofDrawBitmapString("Average Time: " + to_string(avgTime / 1000) + "s", 10, 320);
         ofDrawBitmapString("Last cycle Time: " + to_string(cycleTime / 1000) + "s", 10, 340);
-        
+		if (rest() == 0) {
+			ofSetColor(255, 255, 0);
+			ofDrawBitmapString("ZZzz.. ", 250, 120);
+		}
+
     }
     
     

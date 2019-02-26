@@ -36,7 +36,7 @@ void ofApp::update(){
     A.eatPoison(pill);
     A.energy = A.energy - 1;
 	//Rock.controlDisplay();
-	time = ofGetElapsedTimeMillis();
+	//time = ofGetElapsedTimeMillis();
 }
 
 //--------------------------------------------------------------
