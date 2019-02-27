@@ -7,6 +7,20 @@
 #pragma once
 using namespace std;
 
+class Time {
+public:
+    unsigned long long instantTime;
+    
+    Time() {
+        instantTime= ofGetElapsedTimeMillis();
+    }
+    
+    unsigned long long get_time(){
+        return instantTime;
+    }
+};
+
+
 class Obstacle {
 private:
     int x;
@@ -26,7 +40,7 @@ public:
     }
     
     int get_x() {
-        return x ;
+        return x;
     }
     
     void respawn() {
@@ -36,17 +50,17 @@ public:
     }
     
     int controlDisplay() {
-        float endT = ofRandom(10000, 30000);
-        float timer = ofGetElapsedTimeMillis();
+        float endT = ofGetElapsedTimeMillis();
+        float timePeriod = time - endT;
         
-        if (timer < endT) {
+        if (timePeriod < 10000) {
             appear();
             return 0;
         }
-        else if (timer > endT) {
-			
-			//timer = ofResetElapsedTimeCounter(); //timer = 0;
-			return 1;
+        else if (timePeriod > 10000) {
+            
+            //timer = ofResetElapsedTimeCounter(); //timer = 0;
+            return 1;
         }
         
         return 1;
@@ -54,20 +68,20 @@ public:
     
     void appear() {
         time = ofGetElapsedTimeMillis();
-        start=time/1000;
+        start = time / 1000;
         end = ofRandom(5, 30);
         
-        if (start>=end) {
+        if (start >= end) {
             respawn();
         }
     }
     
-    Obstacle(){
+    Obstacle() {
         this->x = ofRandom(20, 380);
         this->y = 200;
     }
     
-    Obstacle (int x, int y) {
+    Obstacle(int x, int y) {
         this->x = x;
         this->y = y;
     }
@@ -103,7 +117,7 @@ public:
     
 };
 
-class Poison{
+class Poison {
     
 private:
     
@@ -112,20 +126,20 @@ private:
     
 public:
     
-    Poison(){
-        this->p = ofRandom(50,350);
+    Poison() {
+        this->p = ofRandom(50, 350);
         this->y = 200;
     }
     
-    void reset(){
-        p = ofRandom(50,350);
+    void reset() {
+        p = ofRandom(50, 350);
     }
     
-    int get_p(){
+    int get_p() {
         return p;
     }
     
-    void display(){
+    void display() {
         ofNoFill();
         ofSetColor(255, 0, 0);
         ofDrawCircle(p, y, 5, 5);
@@ -173,6 +187,12 @@ public:
     int estPos;
     int returnStatus;
     
+    Time timer;
+    
+    void bindTime(Time &timer){
+        this->timer = timer;
+    }
+    
     Agent() {
         x = 100;
         y = 200;
@@ -188,9 +208,9 @@ public:
         cycleTime = 0;
         t2 = 0;
         count = 1;
-        startTime = ofGetElapsedTimeMillis();
+        startTime = timer.get_time();
         estPos = 0;
-        returnStatus=0;
+        returnStatus = 0;
     }
     
     Agent(int x, int y, float theta) {
@@ -208,11 +228,10 @@ public:
         cycleTime = 0;
         t2 = 0;
         count = 1;
-        startTime = ofGetElapsedTimeMillis();
+        startTime = timer.get_time();
         estPos = 0;
-        returnStatus=0;
+        returnStatus = 0;
     }
-    
     
     
     int get_x() {
@@ -228,34 +247,26 @@ public:
     }
     
     void display() {
-        
-        
-        int x1 = x + (radius*(cos(theta)));
-        int y1 = y + (radius*(sin(theta)));
-        int x2 = x + (radius*(cos(theta + 2 * (PI / 3) + (PI / 8))));
-        int y2 = y + (radius*(sin(theta + 2 * (PI / 3) + (PI / 8))));
-        int x3 = x + (radius*(cos(theta + (-4)*(PI / 6) - (PI / 8))));
-        int y3 = y + (radius*(sin(theta + (-4)*(PI / 6) - (PI / 8))));
-        beta = radius*cos(2 * PI / 9);
-        gamma = radius*sin(2 * PI / 9);
+        beta = radius * cos(2 * PI / 9);
+        gamma = radius * sin(2 * PI / 9);
         
         if (direction == 1) {
-            ofSetColor(0,0,(energy / 1000) * 255);
+            ofSetColor(0, 0, (energy / 1000) * 255);
             ofDrawTriangle(x + radius, y, x - beta, y - gamma, x - beta, y + gamma);
             
-            ofSetColor(0,255,0);
-            ofDrawLine(x, y, x+50, y);
-            ofSetColor(0,255,255);
-            ofDrawLine(x-15-radius, y, x+30, y);
+            ofSetColor(0, 255, 0);
+            ofDrawLine(x, y, x + 50, y);
+            ofSetColor(0, 255, 255);
+            ofDrawLine(x - 15 - radius, y, x + 30, y);
         }
         else if (direction == 0) {
-            ofSetColor(0,0,(energy / 1000) * 255);
+            ofSetColor(0, 0, (energy / 1000) * 255);
             ofDrawTriangle(x - radius, y, x - beta + 2 * beta, y - gamma, x - beta + 2 * beta, y + gamma);
             
-            ofSetColor(0,255,0);
-            ofDrawLine(x-50, y, x, y);
-            ofSetColor(0,255,255);
-            ofDrawLine(x-30-radius, y, x+15, y);
+            ofSetColor(0, 255, 0);
+            ofDrawLine(x - 50, y, x, y);
+            ofSetColor(0, 255, 255);
+            ofDrawLine(x - 30 - radius, y, x + 15, y);
         }
     }
     
@@ -264,11 +275,11 @@ public:
         ofDrawBitmapString("Total Time: " + to_string(t1 / 1000) + "s", 10, 300);
         ofDrawBitmapString("Average Time: " + to_string(avgTime / 1000) + "s", 10, 320);
         ofDrawBitmapString("Last cycle Time: " + to_string(cycleTime / 1000) + "s", 10, 340);
-		if (rest() == 0) {
-			ofSetColor(255, 255, 0);
-			ofDrawBitmapString("ZZzz.. ", 250, 120);
-		}
-
+        if (rest() == 0) {
+            ofSetColor(255, 255, 0);
+            ofDrawBitmapString("ZZzz.. ", 250, 120);
+        }
+        
     }
     
     
@@ -312,17 +323,15 @@ public:
     void displayTime() {
         ofDrawBitmapString("Time " + to_string(startTime), 10, 250);
     }
-    void resetTime() {
-        startTime = ofGetElapsedTimeMillis();
-    }
     
     void countCycleTime() {
         t1 = startTime;
+        t2 = timer.get_time();
         cycleTime = t1 - t2;
         totalTime = totalTime + cycleTime;
-        avgTime = totalTime/count;
-        t2 = t1;
+        avgTime = totalTime / count;
         count = count + 1;
+        startTime = t2;
     }
     
     void eat(Food &meal) {
@@ -330,15 +339,14 @@ public:
             countCycleTime();
             eatCount = eatCount + 1;
             meal.reset();
-            resetTime();
             energy = energy + 50;
         }
         
     }
     
-    void eatPoison(Poison &pill){
-        if (x== pill.get_p()) {
-            energy = energy-100;
+    void eatPoison(Poison &pill) {
+        if (x == pill.get_p()) {
+            energy = energy - 100;
             pill.reset();
         }
         
@@ -384,7 +392,7 @@ public:
     
     int see(Food meal) {
         die();
-        ofDrawLine(x, y, x+50, y);
+        ofDrawLine(x, y, x + 50, y);
         if ((checkJumps(meal, x, x + 50) != 0) && direction == 1) { //checks for 50px awareness
             if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1) //checks for speed awareness
                 if (energy <= 900) {
@@ -454,14 +462,17 @@ public:
     }
     
     int wait() {
-        int myTimerStart = ofGetElapsedTimeMillis();
+        int waitTime=0;
+        int beginTime = timer.get_time();
+        while (waitTime-beginTime<3000){
+            waitTime = timer.get_time();
         
-        if (myTimerStart <= 3000) {
-            return 0;
-        }
-        else if (myTimerStart > 3000) {
-            flip();
-        }
+       // if (myTimerStart <= 3000) {
+            //return 0;
+       // }
+        //else if (myTimerStart > 3000) {
+           // flip();
+        //}
     }
     
     
@@ -470,7 +481,7 @@ public:
             flip();
             return 1;
         }
-        if (x <= 50 && see(meal) != 0 && direction == 0 ) { // if there is no food within 50 px of edge
+        if (x <= 50 && see(meal) != 0 && direction == 0) { // if there is no food within 50 px of edge
             flip();
             return 1;
         }

@@ -13,15 +13,15 @@ using namespace std;
 //--------------------------------------------------------------
 
 void ofApp::setup(){
-    //    TimeCount = Timer();
     ofSetFrameRate(24);
     ofSetVerticalSync(true);
     A = Agent(50, 200,0);
     meal = Food();
     Rock = Obstacle();
     pill = Poison();
-    //m = Monitor(A);
     ofSetBackgroundColor(100,100,100);
+    ofResetElapsedTimeCounter();
+    timer = Time();
 }
 
 //--------------------------------------------------------------
@@ -35,6 +35,7 @@ void ofApp::update(){
     A.die();
     A.eatPoison(pill);
     A.energy = A.energy - 1;
+    
 }
 
 //--------------------------------------------------------------
@@ -47,13 +48,6 @@ void ofApp::draw(){
     meal.display();
     A.eat(meal);
     pill.display();
-    
-    //    if (A.get_x() <= 380) {
-    //    A.avoidEdge(meal);
-    //}
-    //if (A.get_x() <= 20) {
-    //A.avoidEdge(meal);
-    //}
     
     ofSetColor(255);
     ofDrawBitmapString("Energy:" , 10, 120);
