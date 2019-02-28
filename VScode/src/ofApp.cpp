@@ -40,7 +40,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    
+	timer.display();
     Rock.display();
     Rock.controlDisplay();
     A.display();

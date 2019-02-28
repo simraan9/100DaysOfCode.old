@@ -7,15 +7,26 @@
 #pragma once
 using namespace std;
 
-class Time {
+/*
+This class initialises a timer, whose values can be captured any time by methods in other classes.
+*/
+class Time { 
 public:
 	float currentTime;
 
+	void display() {
+		ofDrawBitmapString("Class Time: " + to_string(currentTime) , 10, 10);
+	}
+
 	Time() {
-		currentTime= ofGetElapsedTimeMillis();
+		currentTime= ofGetElapsedTimef();
 	}
 };
 
+
+/*
+This class has all methods that make an obstacle. 
+*/
 
 class Obstacle {
 private:
@@ -27,25 +38,29 @@ public:
 	int start;
 	int end;
 
-	void display() {
+	void display() {				 //displays obstacle
 		ofSetColor(100, 150, 100);
 		ofDrawBitmapString("Time: " + to_string(start) + "  End" + to_string(end) + "s", 10, 380);
+		
+
 		if (controlDisplay() == 0) {
 			ofDrawRectangle(x, y - 15, 10, 30);
 		}
 	}
-
-	int get_x() {
+	
+	
+	int get_x() {					 // returns x coordinate for obstacle
 		return x;
 	}
-
-	void respawn() {
+	
+		
+	void respawn() {				// resets the timer and gives new position to the obstacle
 		x = ofRandom(20, 380);
 		y = 200;
 		ofResetElapsedTimeCounter();
 	}
 
-	int controlDisplay() {
+	int controlDisplay() {			//checks if time>10 seconds, returns a value to control obstacle display
 		float endT = ofGetElapsedTimeMillis();
 		float timePeriod = time - endT;
 
@@ -62,7 +77,7 @@ public:
 		return 1;
 	}
 
-	void appear() {
+	void appear() {					// picks time between 5-30 seconds, respawns the obstacle after
 		time = ofGetElapsedTimeMillis();
 		start = time / 1000;
 		end = ofRandom(5, 30);
@@ -84,6 +99,10 @@ public:
 
 };
 
+
+/*
+This class has all methods that make food.
+*/
 class Food {
 private:
 	int r;
@@ -91,16 +110,16 @@ private:
 
 public:
 
-	void display() {
+	void display() {	//displays food
 		ofSetColor(255, 0, 0);
 		ofDrawCircle(r, y, 5, 5);
 	}
 
-	void reset() {
+	void reset() {		//resets x coordinate for food
 		r = ofRandom(50, 350);
 	}
 
-	int get_r() {
+	int get_r() {		//returns x coordinate for food
 		return r;
 	}
 
@@ -112,6 +131,10 @@ public:
 
 
 };
+
+/*
+This class has all methods that make posion.
+*/
 
 class Poison {
 
@@ -127,15 +150,15 @@ public:
 		this->y = 200;
 	}
 
-	void reset() {
+	void reset() {			//resets x position of poison
 		p = ofRandom(50, 350);
 	}
 
-	int get_p() {
+	int get_p() {			//returns x cooridinate for poison
 		return p;
 	}
 
-	void display() {
+	void display() {		//displays poison
 		ofNoFill();
 		ofSetColor(255, 0, 0);
 		ofDrawCircle(p, y, 5, 5);
@@ -145,7 +168,9 @@ public:
 };
 
 
-
+/*
+This class has all methods that make an Agent.
+*/
 
 class Agent {
 private:
@@ -225,19 +250,20 @@ public:
 
 
 
-	int get_x() {
+	int get_x() {				//returns x coordinate for agent
 		return x;
 	}
 
-	int get_y() {
+	int get_y() {				//returns y coordinate for agent
 		return y;
 	}
 
-	int get_energy() {
+	int get_energy() {			//returns energy for agent
 		return energy;
 	}
 
-	void display() {
+	void display() {			//checks direction before displaying agent
+
 		beta = radius * cos(2 * PI / 9);
 		gamma = radius * sin(2 * PI / 9);
 
@@ -261,12 +287,14 @@ public:
 		}
 	}
 
-	void displayText() {
+	void displayText() {			//displays text related to agent
+		
 		ofSetColor(255, 255, 255);
 		ofDrawBitmapString("Total Time: " + to_string(t1 / 1000) + "s", 10, 300);
 		ofDrawBitmapString("Average Time: " + to_string(avgTime / 1000) + "s", 10, 320);
 		ofDrawBitmapString("Last cycle Time: " + to_string(cycleTime / 1000) + "s", 10, 340);
-		if (rest() == 0) {
+		
+		if (rest() == 0) {			//displays feedback for rest
 			ofSetColor(255, 255, 0);
 			ofDrawBitmapString("ZZzz.. ", 250, 120);
 		}
@@ -274,7 +302,7 @@ public:
 	}
 
 
-	int flip() {
+	int flip() {					//reverses direction
 
 		if (direction == 1) {
 			direction = 0;
@@ -285,14 +313,14 @@ public:
 		return direction;
 	}
 
-	int rest() {
+	int rest() {					//makes the agent inactive if energy>=900
 		if (energy >= 900) {
 			return 0;
 		}
 		return 1;
 	}
 
-	void move() {
+	void move() {					//makes agent move
 		if (rest() == 1) {
 			if (x >= 0 + radius && direction == 1) {
 				x = x + 1;
@@ -311,14 +339,15 @@ public:
 
 	}
 
-	void displayTime() {
+	void displayTime() {		//displays time on canvas 
 		ofDrawBitmapString("Time " + to_string(startTime), 10, 250);
 	}
-	void resetTime() {
+
+	void resetTime() {			//resets time for agent
 		startTime = ofGetElapsedTimeMillis();
 	}
 
-	void countCycleTime() {
+	void countCycleTime() {		//calculates total, cycle and average time for agent to eat
 		t1 = startTime;
 		cycleTime = t1 - t2;
 		totalTime = totalTime + cycleTime;
@@ -327,7 +356,7 @@ public:
 		count = count + 1;
 	}
 
-	void eat(Food &meal) {
+	void eat(Food &meal) {		//consumes food, compares own position with food's. Increases energy and eat count; and resets time and food position after.
 		if (x == meal.get_r()) {
 			countCycleTime();
 			eatCount = eatCount + 1;
@@ -338,7 +367,7 @@ public:
 
 	}
 
-	void eatPoison(Poison &pill) {
+	void eatPoison(Poison &pill) { //consumes poison, compares own position with it, reduces energy on eating and resets position for poison
 		if (x == pill.get_p()) {
 			energy = energy - 100;
 			pill.reset();
@@ -347,12 +376,12 @@ public:
 	}
 
 
-	void respawn() {
+	void respawn() {			//resets position for agent
 		x = ofRandom(0, 400);
 
 	}
 
-	void die() {
+	void die() {				//kills agent if energy < 0, creates new agent in place, increases death count
 		if (energy <= 0) {
 			respawn();
 			energy = 1000;
@@ -360,7 +389,7 @@ public:
 		}
 	}
 
-	int checkJumps(Food &meal, int pos1, int pos2) {
+	int checkJumps(Food &meal, int pos1, int pos2) {	//this method checks for the presence of another object between two positions, returns estimated position of the object
 
 		foodPos = meal.get_r();
 
@@ -383,8 +412,9 @@ public:
 
 	}
 
+	//This function checks if the food is within 50px ahead of his nose. Returns estimated position
 
-	int see(Food meal) {
+	int see(Food meal) {		
 		die();
 		ofDrawLine(x, y, x + 50, y);
 		if ((checkJumps(meal, x, x + 50) != 0) && direction == 1) { //checks for 50px awareness
@@ -396,8 +426,8 @@ public:
 					move();
 				}
 		}
-		else if ((checkJumps(meal, x - 50, x) != 0) && direction == 0) {
-			if ((checkJumps(meal, x - (energy / 100), x) != 0) && direction == 0)
+		else if ((checkJumps(meal, x - 50, x) != 0) && direction == 0) { //checks for 50px awareness
+			if ((checkJumps(meal, x - (energy / 100), x) != 0) && direction == 0) //checks for speed awareness
 				if (energy <= 900) {
 					eat(meal);
 				}
@@ -412,29 +442,31 @@ public:
 		return estPos;
 	}
 
-	//This function checks if the food is within 30px ahead and 15 px behind his nose and flips direction to get there quicker.
+
+
+	//This function checks if the food is within 30px ahead and 15 px behind his nose. Returns estimated position
 
 	int smell(Food meal) {
-		if ((checkJumps(meal, x, x + 30) != 0) && direction == 1) {
-			if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1)
+		if ((checkJumps(meal, x, x + 30) != 0) && direction == 1) { //checks for 30px awareness
+			if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1)	//checks for speed awareness
 				if (energy <= 900) {
 					eat(meal);
 				}
 		}
-		else if ((checkJumps(meal, x - 30, x) != 0) && direction == 0) {
-			if ((checkJumps(meal, x - (energy / 100), x) != 0) && direction == 0)
+		else if ((checkJumps(meal, x - 30, x) != 0) && direction == 0) {  //checks for 30px awareness
+			if ((checkJumps(meal, x - (energy / 100), x) != 0) && direction == 0)	//checks for speed awareness
 				if (energy <= 900) {
 					eat(meal);
 				}
 
-			if ((checkJumps(meal, x - 15 + radius, x + radius) != 0) && direction == 1) {
-				if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1)
+			if ((checkJumps(meal, x - 15 + radius, x + radius) != 0) && direction == 1) {	//checks for -15px awareness
+				if ((checkJumps(meal, x, (x + (energy / 100))) != 0) && direction == 1)		//checks for speed awareness
 					if (energy <= 900) {
 						eat(meal);
 					}
 			}
-			else if ((checkJumps(meal, x + radius, x - 15 + radius) != 0) && direction == 0) { //checks for 50px awareness in -ve direction
-				if ((checkJumps(meal, x - (energy / 100), x) != 0) && direction == 0) //checks for speed awareness -ve direction
+			else if ((checkJumps(meal, x + radius, x - 15 + radius) != 0) && direction == 0) { //checks for -15px awareness
+				if ((checkJumps(meal, x - (energy / 100), x) != 0) && direction == 0) //checks for speed awareness
 					if (energy <= 900) {
 						eat(meal);
 					}
@@ -442,6 +474,9 @@ public:
 			return estPos;
 		}
 	}
+
+
+	//This function compares agent position with the obstacle's, and returns int returnStatus which tells agent whether or not to wait
 
 	int avoidObstacle(Obstacle &Rock) {
 		if (Rock.get_x() == x + 20 && direction == 1) {
@@ -455,6 +490,9 @@ public:
 		}
 	}
 
+
+	//This function uses a timer to wait if time<3s and flip if time>3s
+
 	int wait() {
 		int myTimerStart = ofGetElapsedTimeMillis();
 
@@ -466,6 +504,7 @@ public:
 		}
 	}
 
+	//This function checks the first and last 50px of the canvas with the see(); to flip if there is no obstacle in the area. 
 
 	int avoidEdge(Food meal) {
 		if (x >= 350 && see(meal) != 0 && direction == 1) {
