@@ -174,7 +174,7 @@ private:
     int totalTime;
     int avgTime;
     int count;
-    
+    int restrictRest;
     
 public:
     int eatCount;
@@ -211,6 +211,7 @@ public:
         startTime = timer.get_time();
         estPos = 0;
         returnStatus = 0;
+        restrictRest = 0;
     }
     
     Agent(int x, int y, float theta) {
@@ -231,6 +232,7 @@ public:
         startTime = timer.get_time();
         estPos = 0;
         returnStatus = 0;
+        restrictRest = 0;
     }
     
     
@@ -295,8 +297,9 @@ public:
     }
     
     int rest() {
-        if (energy >= 900) {
+        if (energy >= 900 && restrictRest==0) {
             return 0;
+            restrictRest = 1;
         }
         return 1;
     }
@@ -338,6 +341,7 @@ public:
         if (x == meal.get_r()) {
             countCycleTime();
             eatCount = eatCount + 1;
+            restrictRest = 0;
             meal.reset();
             energy = energy + 50;
         }
@@ -451,17 +455,17 @@ public:
     
     int avoidObstacle(Obstacle &Rock) {
         if (Rock.get_x() == x + 20 && direction == 1) {
-            returnStatus = wait();
+            //returnStatus = wait();
             return returnStatus;
             
         }
         if (Rock.get_x() == x - 20 && direction == 0) {
-            returnStatus = wait();
+            //returnStatus = wait();
             return returnStatus;
         }
     }
     
-    int wait() {
+    /*int wait() {
         int waitTime=0;
         int beginTime = timer.get_time();
         while (waitTime-beginTime<3000){
@@ -472,8 +476,8 @@ public:
        // }
         //else if (myTimerStart > 3000) {
            // flip();
-        //}
-    }
+        }
+    }*/
     
     
     int avoidEdge(Food meal) {
