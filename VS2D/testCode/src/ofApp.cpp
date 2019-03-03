@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    //    int angle = ofRandom(0, 360);
     a = Agent();
     ofSetFrameRate(40);
     ofSetVerticalSync(true);
@@ -18,6 +19,7 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     //    a.move2();
+    //angle = ofRandom(0, 360);
 }
 
 //--------------------------------------------------------------
@@ -81,4 +83,4 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
     
 }
 ofApp.cpp
-Displaying ofApp.h.
+Displaying textCode.h.
