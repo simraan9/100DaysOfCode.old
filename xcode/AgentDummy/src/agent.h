@@ -33,8 +33,11 @@ public:
     
     void display() {
         ofSetColor(100, 150, 100);
+        ofNoFill();
+        ofDrawCircle(x, 200, 5);
+        
         ofDrawBitmapString("Time: " + to_string(start) + "  End" + to_string(end) + "s", 10, 380);
-        if (controlDisplay() == 0) {
+        if (true) {
             ofDrawRectangle(x, y - 15, 10, 30);
         }
     }
@@ -186,6 +189,7 @@ public:
     int foodPos;
     int estPos;
     int returnStatus;
+    int waitTime;
     
     Time timer;
     
@@ -212,6 +216,7 @@ public:
         estPos = 0;
         returnStatus = 0;
         restrictRest = 0;
+        waitTime=0;
     }
     
     Agent(int x, int y, float theta) {
@@ -233,6 +238,7 @@ public:
         estPos = 0;
         returnStatus = 0;
         restrictRest = 0;
+        waitTime=0;
     }
     
     
@@ -455,29 +461,29 @@ public:
     
     int avoidObstacle(Obstacle &Rock) {
         if (Rock.get_x() == x + 20 && direction == 1) {
-            //returnStatus = wait();
+            returnStatus = wait();
             return returnStatus;
             
         }
         if (Rock.get_x() == x - 20 && direction == 0) {
-            //returnStatus = wait();
+            returnStatus = wait();
             return returnStatus;
         }
+        return -1;
     }
     
-    /*int wait() {
-        int waitTime=0;
-        int beginTime = timer.get_time();
-        while (waitTime-beginTime<3000){
-            waitTime = timer.get_time();
-        
-       // if (myTimerStart <= 3000) {
-            //return 0;
-       // }
-        //else if (myTimerStart > 3000) {
-           // flip();
+    int wait() {
+        unsigned long long beginTime = timer.get_time();
+        waitTime=waitTime+1;
+        if (waitTime>=3000){
+            waitTime=0;
+            return 0;
         }
-    }*/
+        else if (waitTime<3000){
+            return 1;
+        }
+        return -1;
+    }
     
     
     int avoidEdge(Food meal) {
